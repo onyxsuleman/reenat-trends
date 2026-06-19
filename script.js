@@ -530,7 +530,7 @@ window.renderCatalog = function(filteredList = products) {
           </button>
 
           <!-- Action Overlay -->
-          <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+          <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300 flex items-center justify-center gap-3">
             <button type="button" onclick="addToCart(${idx})" class="p-3 bg-white dark:bg-slate-900 hover:bg-[#F1BF0A] dark:hover:bg-[#F1BF0A] text-slate-800 dark:text-slate-100 rounded-full shadow-md transition-colors duration-200 cursor-pointer" title="Add to Cart">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
             </button>
@@ -999,85 +999,3 @@ if (document.getElementById('product-list')) {
     });
   }
 }
-
-// ========================================================
-// Double-Tap to Wishlist Gesture & Pop-up Animation
-// ========================================================
-function showGoldHeartAnimation(container) {
-  const existing = container.querySelector('.gold-heart-overlay');
-  if (existing) existing.remove();
-
-  const overlay = document.createElement('div');
-  overlay.className = 'gold-heart-overlay';
-  overlay.innerHTML = `
-    <svg class="size-20 gold-heart-animate text-[#F1BF0A]" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-    </svg>
-  `;
-  container.appendChild(overlay);
-
-  setTimeout(() => {
-    overlay.remove();
-  }, 800);
-}
-
-function handleWishlistDoubleTap(img) {
-  const index = img.dataset.productIndex;
-  if (index === undefined) return;
-  
-  const productIndex = Number(index);
-  const container = img.closest('.relative') || img.parentElement;
-  
-  if (container) {
-    showGoldHeartAnimation(container);
-  }
-  
-  addToWishlist(productIndex);
-  
-  // If in wishlist.html, refresh screen
-  if (window.location.pathname.includes('wishlist.html') && typeof renderWishlist === 'function') {
-    renderWishlist();
-  }
-}
-
-let tapTimeout = null;
-let lastTapTime = 0;
-let lastTapTarget = null;
-
-document.addEventListener('click', function(e) {
-  const img = e.target.closest('.product-image-tap');
-  if (!img) return;
-
-  const isMobile = window.innerWidth < 768;
-  if (!isMobile) return; // Only apply on mobile viewport
-
-  const now = Date.now();
-  const DOUBLE_TAP_DELAY = 300;
-  
-  if (now - lastTapTime < DOUBLE_TAP_DELAY && lastTapTarget === img) {
-    if (tapTimeout) {
-      clearTimeout(tapTimeout);
-      tapTimeout = null;
-    }
-    lastTapTime = 0;
-    lastTapTarget = null;
-    
-    e.preventDefault();
-    e.stopPropagation();
-    
-    handleWishlistDoubleTap(img);
-  } else {
-    lastTapTime = now;
-    lastTapTarget = img;
-    
-    const link = img.closest('a');
-    if (link) {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      tapTimeout = setTimeout(() => {
-        window.location.href = link.href;
-      }, DOUBLE_TAP_DELAY);
-    }
-  }
-}, true); // Use capture phase to intercept card links on mobile
