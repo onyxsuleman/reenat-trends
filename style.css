@@ -88,12 +88,13 @@ body::before {
 .product-card {
 	background: rgba(255, 255, 255, 0.6) !important;
 	border: 1px solid rgba(255, 255, 255, 0.4) !important;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 	backdrop-filter: blur(12px);
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .product-card:hover {
 	transform: translateY(-6px);
-	box-shadow: 0 20px 40px rgba(16, 24, 40, 0.08);
+	box-shadow: 0 20px 40px rgba(16, 24, 40, 0.08) !important;
 	background: rgba(255, 255, 255, 0.8) !important;
 	border-color: rgba(255, 255, 255, 0.6) !important;
 }
@@ -115,11 +116,12 @@ body::before {
 .dark .product-card {
 	background: rgba(10, 18, 38, 0.6) !important;
 	border-color: rgba(255, 255, 255, 0.06) !important;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
 .dark .product-card:hover {
 	background: rgba(12, 22, 47, 0.8) !important;
 	border-color: rgba(255, 255, 255, 0.12) !important;
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
 }
 .dark .btn-secondary {
 	background: rgba(255, 255, 255, 0.08);
@@ -349,5 +351,44 @@ html:not(.dark) footer div.border-t {
 }
 .dark footer div.border-t {
   border-color: rgba(255, 255, 255, 0.15) !important; /* Subtle light border line */
+}
+
+/* Theme Toggle Button Styling & Shadow */
+#theme-toggle {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 9999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+#theme-toggle:hover {
+  background: #f8fafc !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  transform: scale(1.05) !important;
+}
+
+#theme-toggle:active {
+  transform: scale(0.95) !important;
+}
+
+/* Dark theme toggle style */
+.dark #theme-toggle {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark #theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
 }
 

@@ -355,6 +355,7 @@ function renderMobileMenu() {
       <li><a href="stores.html" class="block p-3 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/10 text-slate-800 dark:text-slate-100 transition-colors">Stores Locator</a></li>
       <li><a href="wishlist.html" class="block p-3 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/10 text-slate-800 dark:text-slate-100 transition-colors flex items-center justify-between"><span>Wishlist</span><span class="bg-rose-500 text-white rounded-full text-xs px-2 py-0.5" id="mobile-wishlist-count">0</span></a></li>
       <li><a href="cart.html" class="block p-3 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/10 text-slate-800 dark:text-slate-100 transition-colors flex items-center justify-between"><span>Cart</span><span class="bg-[#F1BF0A] text-slate-900 rounded-full text-xs px-2 py-0.5" id="mobile-cart-count">0</span></a></li>
+      <li><a href="cms.html" class="block p-3 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/10 text-slate-800 dark:text-slate-100 transition-colors">CMS Console</a></li>
       <li><a href="login.html" id="mobile-account-link" class="block p-3 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/10 text-slate-800 dark:text-slate-100 transition-colors">My Account / Log In</a></li>
     </ul>
   `;
@@ -556,7 +557,7 @@ window.renderCatalog = function(filteredList = products) {
                 <span class="text-sm line-through text-slate-455 dark:text-slate-400">₹${formattedOriginal}</span>
                 <span class="text-lg font-bold text-slate-900 dark:text-white">₹${formattedPrice}</span>
               </div>
-              <div class="text-[#16a34a] dark:text-[#25D366] text-[11px] font-bold mt-0.5">Hot Deal</div>
+              <div class="inline-block bg-[#16a34a]/10 dark:bg-[#25D366]/10 text-[#16a34a] dark:text-[#25D366] text-[10px] font-bold mt-1.5 px-2.5 py-0.5 rounded border border-[#16a34a]/20 dark:border-[#25D366]/20 shadow-[0_2px_6px_rgba(22,163,74,0.12)] dark:shadow-none w-fit">Hot Deal</div>
             </div>
             <button type="button" onclick="addToCart(${idx}); event.preventDefault(); event.stopPropagation();" class="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 p-2 sm:p-2.5 bg-[#F1BF0A] hover:bg-yellow-500 text-slate-900 rounded-full cursor-pointer transition-transform hover:scale-105 active:scale-95 shadow-sm" title="Add to Cart">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
@@ -817,13 +818,37 @@ initCarousel();
 // ========================================================
 if (document.getElementById('product-list')) {
   const filterHTML = `
-    <!-- Floating Filter Button -->
-    <button id="floating-filter-btn" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[#183fad]/90 dark:bg-[#0c1e44]/90 text-white px-5 py-3 rounded-full shadow-lg border border-white/20 dark:border-white/10 glass transition-all hover:scale-105 active:scale-95 cursor-pointer z-40 flex items-center gap-2 text-xs font-semibold select-none">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-4.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
-      </svg>
-      <span>Filter Collection</span>
-    </button>
+    <!-- Floating Navigation Menu -->
+    <div id="floating-nav-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-40 bg-white/40 dark:bg-black/25 px-2.5 py-2 rounded-full border border-white/20 dark:border-white/10 glass shadow-lg max-w-[90vw] select-none">
+      <!-- Home Shortcut -->
+      <a href="index.html" id="floating-home-btn" class="bg-[#183fad]/90 dark:bg-[#0c1e44]/90 hover:bg-blue-800 dark:hover:bg-blue-950 text-white p-2.5 rounded-full shadow-md transition-all hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center border border-white/10" title="Home">
+        <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/>
+        </svg>
+      </a>
+
+      <!-- Accounts Shortcut -->
+      <a href="login.html" id="floating-accounts-btn" class="bg-[#183fad]/90 dark:bg-[#0c1e44]/90 hover:bg-blue-800 dark:hover:bg-blue-950 text-white p-2.5 rounded-full shadow-md transition-all hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center border border-white/10" title="Accounts">
+        <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </a>
+
+      <!-- Cart Shortcut -->
+      <button id="floating-cart-btn" class="bg-[#183fad]/90 dark:bg-[#0c1e44]/90 hover:bg-blue-800 dark:hover:bg-blue-950 text-white p-2.5 rounded-full shadow-md transition-all hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center border border-white/10" title="Cart">
+        <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+      </button>
+
+      <!-- Original Filter Button (Refactored) -->
+      <button id="floating-filter-btn" class="bg-[#183fad]/90 dark:bg-[#0c1e44]/90 hover:bg-blue-800 dark:hover:bg-blue-950 text-white px-4 py-2.5 rounded-full shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-1.5 text-xs font-semibold border border-white/10">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+        </svg>
+        <span>Filter</span>
+      </button>
+    </div>
 
     <!-- Bottom Filtering Sheet Backdrop -->
     <div id="filter-backdrop" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[8000] hidden opacity-0 transition-opacity duration-300"></div>
@@ -980,6 +1005,24 @@ if (document.getElementById('product-list')) {
 
   // Listeners
   if (floatingFilterBtn) floatingFilterBtn.addEventListener('click', openFilterSheet);
+
+  const floatingCartBtn = document.getElementById('floating-cart-btn');
+  if (floatingCartBtn) {
+    floatingCartBtn.addEventListener('click', () => {
+      openDrawer('Shopping Cart');
+      renderCartDrawer();
+    });
+  }
+
+  const floatingAccountsBtn = document.getElementById('floating-accounts-btn');
+  if (floatingAccountsBtn) {
+    const session = JSON.parse(localStorage.getItem('userSession'));
+    if (session && session.isLoggedIn) {
+      floatingAccountsBtn.href = 'account.html';
+    } else {
+      floatingAccountsBtn.href = 'login.html';
+    }
+  }
   
   const applyBtn = document.getElementById('filter-apply-btn');
   const closeBtn = document.getElementById('filter-close-btn');
