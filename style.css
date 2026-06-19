@@ -354,3 +354,38 @@ body > header > div.w-full.flex.justify-center.overflow-hidden.py-4.sm\:py-6.sel
     gap: 8px !important;
   }
 }
+
+/* Footer Themes (High Contrast Readability) */
+html:not(.dark) footer {
+  color: #0f172a !important; /* Dark Slate for high contrast in light theme */
+}
+html:not(.dark) footer a {
+  color: #0f172a !important; /* Dark Slate/Black for links */
+}
+html:not(.dark) footer a:hover {
+  color: #183fad !important; /* Dark Blue hover interaction */
+}
+html:not(.dark) footer p {
+  color: #334155 !important; /* Readable dark gray for copyright text */
+}
+html:not(.dark) footer div.border-t {
+  border-color: rgba(15, 23, 42, 0.18) !important; /* Subtle dark border line */
+}
+
+/* Dark Mode Footer rules */
+.dark footer {
+  color: #f1f5f9 !important;
+}
+.dark footer a {
+  color: #F1BF0A !important; /* Yellow for links and icons */
+}
+.dark footer a:hover {
+  color: #ffffff !important; /* White on hover */
+}
+.dark footer p {
+  color: rgba(241, 245, 249, 0.6) !important; /* Light gray for copyright */
+}
+.dark footer div.border-t {
+  border-color: rgba(255, 255, 255, 0.15) !important; /* Subtle light border line */
+}
+

@@ -775,6 +775,38 @@ function initCarousel() {
     startAutoplay();
   });
 
+  // Touch Swipe Gesture Support
+  const heroHeader = document.querySelector('.page-hero');
+  if (heroHeader) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    heroHeader.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    heroHeader.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+
+      // Detect horizontal swipe with min distance of 40px, ensuring horizontal movement is dominant
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+        if (diffX > 0) {
+          prevSlide();
+        } else {
+          nextSlide();
+        }
+        startAutoplay();
+      }
+    }, { passive: true });
+  }
+
   startAutoplay();
 }
 
