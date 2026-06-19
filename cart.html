@@ -100,7 +100,7 @@
         <div class="space-y-3">
           <div class="flex justify-between text-slate-600 dark:text-slate-350">
             <span>Subtotal</span>
-            <span id="summary-subtotal" class="font-semibold text-slate-900 dark:text-white">$0.00</span>
+            <span id="summary-subtotal" class="font-semibold text-slate-900 dark:text-white">₹0</span>
           </div>
           <div class="flex justify-between text-slate-600 dark:text-slate-350">
             <span>Estimated Shipping</span>
@@ -108,11 +108,11 @@
           </div>
           <div class="flex justify-between text-slate-600 dark:text-slate-350 border-b border-black/5 dark:border-white/5 pb-3">
             <span>Tax (Estimated)</span>
-            <span id="summary-tax" class="font-semibold text-slate-900 dark:text-white">$0.00</span>
+            <span id="summary-tax" class="font-semibold text-slate-900 dark:text-white">₹0</span>
           </div>
           <div class="flex justify-between text-slate-900 dark:text-white text-lg font-bold pt-2">
             <span>Total</span>
-            <span id="summary-total">$0.00</span>
+            <span id="summary-total">₹0</span>
           </div>
         </div>
 
@@ -211,7 +211,7 @@
           <img src="${item.image}" alt="${item.name}" style="width:90px;height:90px;object-fit:cover" class="rounded-xl shadow-sm border border-black/5 dark:border-white/5" />
           <div class="flex-1">
             <div class="font-semibold text-slate-900 dark:text-white text-base">${item.name}</div>
-            <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">$${item.price} x ${item.qty}</div>
+            <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">₹${item.price.toLocaleString('en-IN')} x ${item.qty}</div>
           </div>
           <div class="flex items-center gap-3">
             <div class="flex items-center border border-slate-200 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700 shadow-sm overflow-hidden">
@@ -239,9 +239,9 @@
       const discount = subtotal * appliedDiscount;
       const total = subtotal + tax - discount;
       
-      document.getElementById('summary-subtotal').textContent = '$' + subtotal.toFixed(2);
-      document.getElementById('summary-tax').textContent = '$' + tax.toFixed(2);
-      document.getElementById('summary-total').textContent = '$' + total.toFixed(2);
+      document.getElementById('summary-subtotal').textContent = '₹' + Math.round(subtotal).toLocaleString('en-IN');
+      document.getElementById('summary-tax').textContent = '₹' + Math.round(tax).toLocaleString('en-IN');
+      document.getElementById('summary-total').textContent = '₹' + Math.round(total).toLocaleString('en-IN');
     }
 
     document.addEventListener('click', (e)=>{

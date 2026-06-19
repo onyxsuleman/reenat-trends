@@ -130,7 +130,7 @@
         <div class="bg-white/70 dark:bg-[#0f1f41]/60 border border-black/5 dark:border-white/10 p-5 rounded-3xl glass shadow-sm flex items-center justify-between">
           <div>
             <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Average Price</span>
-            <span class="text-3xl font-anton text-slate-800 dark:text-white" id="metric-avg-price">$0</span>
+            <span class="text-3xl font-anton text-slate-800 dark:text-white" id="metric-avg-price">₹0</span>
           </div>
           <span class="text-2xl">💰</span>
         </div>
@@ -189,12 +189,12 @@
 
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <label for="form-price" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Sale Price ($)</label>
-          <input type="number" id="form-price" required placeholder="280" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-800 dark:text-white focus:outline-none" />
+          <label for="form-price" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Sale Price (₹)</label>
+          <input type="number" id="form-price" required placeholder="2800" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-800 dark:text-white focus:outline-none" />
         </div>
         <div>
-          <label for="form-originalPrice" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Original Price ($)</label>
-          <input type="number" id="form-originalPrice" required placeholder="420" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-800 dark:text-white focus:outline-none" />
+          <label for="form-originalPrice" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Original Price (₹)</label>
+          <input type="number" id="form-originalPrice" required placeholder="4200" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-800 dark:text-white focus:outline-none" />
         </div>
       </div>
 
@@ -322,7 +322,7 @@
       // Update quick metrics
       document.getElementById('metric-total-sarees').textContent = items.length;
       const avg = items.length ? items.reduce((s, p) => s + p.price, 0) / items.length : 0;
-      document.getElementById('metric-avg-price').textContent = `$${avg.toFixed(0)}`;
+      document.getElementById('metric-avg-price').textContent = `₹${Math.round(avg).toLocaleString('en-IN')}`;
 
       if (items.length === 0) {
         tbody.innerHTML = `
@@ -343,7 +343,7 @@
           <td class="p-4 font-bold text-slate-800 dark:text-white">${item.name}</td>
           <td class="p-4 text-slate-600 dark:text-slate-300 font-medium">${item.type}</td>
           <td class="p-4 text-slate-500 dark:text-slate-400">${item.origin}</td>
-          <td class="p-4 text-right font-bold text-slate-800 dark:text-white">$${item.price} <span class="text-[10px] line-through text-slate-400 font-normal ml-1">$${item.originalPrice}</span></td>
+          <td class="p-4 text-right font-bold text-slate-800 dark:text-white">₹${item.price.toLocaleString('en-IN')} <span class="text-[10px] line-through text-slate-400 font-normal ml-1">₹${item.originalPrice.toLocaleString('en-IN')}</span></td>
           <td class="p-4">
             <div class="flex items-center justify-center gap-2">
               <button onclick="openFormDrawer(${idx})" class="px-2.5 py-1 bg-[#F1BF0A] hover:bg-yellow-500 text-slate-900 font-bold rounded-lg cursor-pointer transition-colors">Edit</button>

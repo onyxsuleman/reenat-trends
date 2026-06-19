@@ -340,3 +340,17 @@ body > header > div.w-full.flex.justify-center.overflow-hidden.py-4.sm\:py-6.sel
   transform: translate(-50%, 0) scale(0.95);
 }
 
+/* Mobile Layout Edge Optimization */
+@media (max-width: 639px) {
+  body {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+  main {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+  }
+  #product-list, #related-product-list, #wishlist-root {
+    gap: 8px !important;
+  }
+}

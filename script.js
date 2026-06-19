@@ -1,17 +1,17 @@
 const defaultProducts = [
-  { name: "Kanjivaram Silk", price: 320, originalPrice: 480, image: "saree_kanjivaram.png", type: "Silk", origin: "Tamil Nadu", craft: "Pure Mulberry Silk with Zari Borders", desc: "A classic Kanjivaram silk saree woven by hand. Characterized by wide contrast borders, rich gold brocade patterns, and vibrant wedding-ready hues.", color: "Red" },
-  { name: "Banarasi Weave", price: 280, originalPrice: 420, image: "saree_banarasi.png", type: "Brocade", origin: "Uttar Pradesh", craft: "Handwoven Brocade Silk", desc: "Finely woven Banarasi silk featuring dense floral creepers, silver brocade work, and visual weight. Ideal for formal ethnic celebrations.", color: "Pink" },
-  { name: "Chanderi Charm", price: 200, originalPrice: 300, image: "saree_chanderi.png", type: "Lightweight", origin: "Madhya Pradesh", craft: "Silk Cotton Blend", desc: "Lightweight and sheer, this Chanderi saree boasts intricate silver motifs, delicate borders, and a sophisticated finish.", color: "Cream" },
-  { name: "Tussar Elegance", price: 180, originalPrice: 260, image: "saree_kanjivaram.png", type: "Organic", origin: "Jharkhand", craft: "Handspun Tussar Silk", desc: "Crafted from wild Tussar silk fibers, showcasing a natural copper-gold sheen and textured, organic hand-feel.", color: "Gold" },
-  { name: "Paithani Classic", price: 350, originalPrice: 500, image: "saree_banarasi.png", type: "Silk", origin: "Maharashtra", craft: "Oblique Weft Silk", desc: "A royal Paithani silk saree featuring a signature square-designed border and a pallu decorated with detailed peacock shapes.", color: "Blue" },
-  { name: "Muga Marvel", price: 400, originalPrice: 580, image: "saree_chanderi.png", type: "Rare", origin: "Assam", craft: "Rare Golden Muga Silk", desc: "Woven with naturally golden Assamese Muga silk thread, valued for its luster, longevity, and heritage value.", color: "Gold" },
-  { name: "Kota Doria", price: 150, originalPrice: 220, image: "saree_chanderi.png", type: "Lightweight", origin: "Rajasthan", craft: "Checked Cotton Silk", desc: "An airy, checked light saree from Kota, Rajasthan. Delicately handwoven for hot climates, styled with gold thread borders.", color: "Green" },
-  { name: "Gadwal Grace", price: 330, originalPrice: 480, image: "saree_kanjivaram.png", type: "Brocade", origin: "Telangana", craft: "Cotton Body with Silk Border", desc: "An architectural wonder combining a light, breathable cotton body with solid, heavy silk borders and pallu segments.", color: "Yellow" },
-  { name: "Ikat Fusion", price: 210, originalPrice: 300, image: "saree_banarasi.png", type: "Organic", origin: "Odisha / Telangana", craft: "Tie-and-Dye Ikat Weave", desc: "Features geometrically precise warp-and-weft tie-dye threads, handwoven into sharp zigzags and classical motifs.", color: "Black" }
+  { name: "Kanjivaram Silk", price: 3200, originalPrice: 4800, image: "saree_kanjivaram.png", type: "Silk", origin: "Tamil Nadu", craft: "Pure Mulberry Silk with Zari Borders", desc: "A classic Kanjivaram silk saree woven by hand. Characterized by wide contrast borders, rich gold brocade patterns, and vibrant wedding-ready hues.", color: "Red", rating: 4.8 },
+  { name: "Banarasi Weave", price: 2800, originalPrice: 4200, image: "saree_banarasi.png", type: "Brocade", origin: "Uttar Pradesh", craft: "Handwoven Brocade Silk", desc: "Finely woven Banarasi silk featuring dense floral creepers, silver brocade work, and visual weight. Ideal for formal ethnic celebrations.", color: "Pink", rating: 4.6 },
+  { name: "Chanderi Charm", price: 2000, originalPrice: 3000, image: "saree_chanderi.png", type: "Lightweight", origin: "Madhya Pradesh", craft: "Silk Cotton Blend", desc: "Lightweight and sheer, this Chanderi saree boasts intricate silver motifs, delicate borders, and a sophisticated finish.", color: "Cream", rating: 4.3 },
+  { name: "Tussar Elegance", price: 1800, originalPrice: 2600, image: "saree_kanjivaram.png", type: "Organic", origin: "Jharkhand", craft: "Handspun Tussar Silk", desc: "Crafted from wild Tussar silk fibers, showcasing a natural copper-gold sheen and textured, organic hand-feel.", color: "Gold", rating: 4.4 },
+  { name: "Paithani Classic", price: 3500, originalPrice: 5000, image: "saree_banarasi.png", type: "Silk", origin: "Maharashtra", craft: "Oblique Weft Silk", desc: "A royal Paithani silk saree featuring a signature square-designed border and a pallu decorated with detailed peacock shapes.", color: "Blue", rating: 4.7 },
+  { name: "Muga Marvel", price: 4000, originalPrice: 5800, image: "saree_chanderi.png", type: "Rare", origin: "Assam", craft: "Rare Golden Muga Silk", desc: "Woven with naturally golden Assamese Muga silk thread, valued for its luster, longevity, and heritage value.", color: "Gold", rating: 4.9 },
+  { name: "Kota Doria", price: 1500, originalPrice: 2200, image: "saree_chanderi.png", type: "Lightweight", origin: "Rajasthan", craft: "Checked Cotton Silk", desc: "An airy, checked light saree from Kota, Rajasthan. Delicately handwoven for hot climates, styled with gold thread borders.", color: "Green", rating: 4.1 },
+  { name: "Gadwal Grace", price: 3300, originalPrice: 4800, image: "saree_kanjivaram.png", type: "Brocade", origin: "Telangana", craft: "Cotton Body with Silk Border", desc: "An architectural wonder combining a light, breathable cotton body with solid, heavy silk borders and pallu segments.", color: "Yellow", rating: 4.5 },
+  { name: "Ikat Fusion", price: 2100, originalPrice: 3000, image: "saree_banarasi.png", type: "Organic", origin: "Odisha / Telangana", craft: "Tie-and-Dye Ikat Weave", desc: "Features geometrically precise warp-and-weft tie-dye threads, handwoven into sharp zigzags and classical motifs.", color: "Black", rating: 4.2 }
 ];
 
 let products = JSON.parse(localStorage.getItem('products'));
-if (products && products.length && !products[0].hasOwnProperty('color')) {
+if (products && products.length && (products[0].price < 1000 || !products[0].hasOwnProperty('color') || !products[0].hasOwnProperty('rating'))) {
   localStorage.removeItem('products');
   products = null;
 }
@@ -187,8 +187,8 @@ window.openQuickView = function(idx) {
   qvOrigin.textContent = product.origin || '';
   qvCraft.textContent = product.craft || '';
   qvName.textContent = product.name;
-  qvPrice.textContent = `$${product.price}`;
-  qvOriginalPrice.textContent = product.originalPrice ? `$${product.originalPrice}` : '';
+  qvPrice.textContent = `₹${product.price.toLocaleString('en-IN')}`;
+  qvOriginalPrice.textContent = product.originalPrice ? `₹${product.originalPrice.toLocaleString('en-IN')}` : '';
   qvDesc.textContent = product.desc || '';
   
   qvWhatsappBtn.onclick = () => {
@@ -279,7 +279,7 @@ function renderCartDrawer() {
       <img src="${item.image}" alt="${item.name}" class="size-16 object-cover rounded-xl shadow-sm border border-black/5" />
       <div class="flex-1 min-w-0">
         <h4 class="font-semibold text-slate-800 dark:text-white text-sm truncate">${item.name}</h4>
-        <p class="text-xs text-slate-500 mt-1">$${item.price} x ${item.qty || 1}</p>
+        <p class="text-xs text-slate-500 mt-1">₹${item.price.toLocaleString('en-IN')} x ${item.qty || 1}</p>
       </div>
       <div class="flex items-center gap-2">
         <div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden bg-white dark:bg-slate-800">
@@ -298,7 +298,7 @@ function renderCartDrawer() {
   footerEl.innerHTML = `
     <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400 font-medium">
       <span>Subtotal</span>
-      <span class="text-base font-bold text-slate-800 dark:text-white">$${subtotal.toFixed(2)}</span>
+      <span class="text-base font-bold text-slate-800 dark:text-white">₹${subtotal.toLocaleString('en-IN')}</span>
     </div>
     <div class="grid grid-cols-2 gap-3 pt-2">
       <a href="cart.html" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-semibold py-2.5 px-4 rounded-full text-center transition-colors cursor-pointer border border-slate-200 dark:border-slate-700 flex items-center justify-center">View Cart</a>
@@ -328,7 +328,7 @@ function renderWishlistDrawer() {
       <img src="${item.image}" alt="${item.name}" class="size-16 object-cover rounded-xl shadow-sm border border-black/5" />
       <div class="flex-1 min-w-0">
         <h4 class="font-semibold text-slate-800 dark:text-white text-sm truncate">${item.name}</h4>
-        <p class="text-xs text-slate-500 mt-1">$${item.price}</p>
+        <p class="text-xs text-slate-500 mt-1">₹${item.price.toLocaleString('en-IN')}</p>
       </div>
       <div class="flex items-center gap-2">
         <button onclick="moveDrawerWishlistToCart(${idx})" class="p-2 bg-[#F1BF0A] hover:bg-yellow-500 text-slate-900 rounded-xl transition-colors cursor-pointer" title="Move to Cart">
@@ -504,6 +504,10 @@ window.renderCatalog = function(filteredList = products) {
   productList.innerHTML = filteredList.map((product) => {
     // Find original index
     const idx = products.findIndex(p => p.name === product.name);
+    const formattedPrice = Math.round(product.price).toLocaleString('en-IN');
+    const formattedOriginal = Math.round(product.originalPrice).toLocaleString('en-IN');
+    const discountPercent = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+    const rating = product.rating || 4.5;
     return `
       <li class="group product-card col-span-1 flex flex-col rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 backdrop-blur-md">
         <!-- Image -->
@@ -514,6 +518,12 @@ window.renderCatalog = function(filteredList = products) {
           <!-- Badge -->
           <span class="absolute top-4 left-4 bg-slate-800/80 text-white text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full">${product.type}</span>
           
+          <!-- Rating Badge -->
+          <div class="absolute bottom-4 left-4 bg-white dark:bg-slate-900 text-slate-850 dark:text-slate-100 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-0.5 shadow-md z-20">
+            <span>${rating}</span>
+            <span class="text-emerald-600">★</span>
+          </div>
+
           <!-- Floating WhatsApp Shortcut -->
           <button type="button" onclick="shareOnWhatsApp(${idx}); event.preventDefault(); event.stopPropagation();" class="absolute top-4 right-4 bg-[#25D366] hover:bg-emerald-600 text-white p-2.5 rounded-full shadow-lg transition-all hover:scale-110 active:scale-95 cursor-pointer z-20 flex items-center justify-center border border-white/20" title="Ask for Second Opinion on WhatsApp">
             <svg class="size-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12.012 2c-5.506 0-9.972 4.466-9.972 9.974 0 1.758.459 3.479 1.33 5.003L2.028 22l5.166-1.355a9.92 9.92 0 0 0 4.814 1.258h.004c5.503 0 9.973-4.467 9.973-9.975C21.985 6.467 17.518 2 12.012 2zm5.727 13.993c-.25.707-1.464 1.3-2.025 1.385-.561.085-1.042.348-3.486-.643-2.937-1.196-4.81-4.184-4.957-4.382-.148-.198-1.197-1.591-1.197-3.036 0-1.444.757-2.15 1.026-2.433.269-.283.593-.354.79-.354.198 0 .396.002.567.01.178.008.419-.068.657.506.25.599.852 2.083.926 2.233.074.15.124.325.025.525-.099.2-.148.324-.297.499-.148.175-.313.39-.446.524-.148.15-.304.312-.132.607.172.296.764 1.259 1.636 2.036.873.778 1.611 1.018 1.908 1.168.297.15.469.125.643-.075.172-.2.757-.881.956-1.181.2-.3.4-.25.674-.15.275.1 1.748.824 2.049.975.301.15.501.225.576.35.074.125.074.723-.176 1.43z"/></svg>
@@ -533,19 +543,23 @@ window.renderCatalog = function(filteredList = products) {
           </div>
         </div>
         <!-- Details -->
-        <div class="p-4 flex flex-col justify-between flex-1 bg-white/40 dark:bg-black/10">
+        <div class="p-3 sm:p-4 flex flex-col justify-between flex-1 bg-white/40 dark:bg-black/10 relative">
           <div>
-            <h3 class="font-semibold text-slate-800 dark:text-slate-100 text-base group-hover:text-[#183fad] dark:group-hover:text-[#F1BF0A] transition-colors duration-200 truncate">
+            <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm group-hover:text-[#183fad] dark:group-hover:text-[#F1BF0A] transition-colors duration-200 truncate">
               <a href="product.html?id=${idx}">${product.name}</a>
             </h3>
+            <div class="text-[#16a34a] dark:text-[#25D366] text-xs font-semibold mt-1">${discountPercent}% OFF</div>
           </div>
-          <div class="mt-2 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="text-lg font-bold text-slate-900 dark:text-white">$${product.price}</span>
-              <span class="text-sm line-through text-slate-400">$${product.originalPrice}</span>
+          <div class="mt-1.5 flex items-center justify-between">
+            <div class="flex flex-col pr-10">
+              <div class="flex items-center gap-2">
+                <span class="text-sm line-through text-slate-455 dark:text-slate-400">₹${formattedOriginal}</span>
+                <span class="text-lg font-bold text-slate-900 dark:text-white">₹${formattedPrice}</span>
+              </div>
+              <div class="text-[#16a34a] dark:text-[#25D366] text-[11px] font-bold mt-0.5">Hot Deal</div>
             </div>
-            <button type="button" onclick="addToCart(${idx})" class="md:hidden p-2 bg-[#F1BF0A] hover:bg-yellow-500 text-slate-900 rounded-full cursor-pointer">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
+            <button type="button" onclick="addToCart(${idx}); event.preventDefault(); event.stopPropagation();" class="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 p-2 sm:p-2.5 bg-[#F1BF0A] hover:bg-yellow-500 text-slate-900 rounded-full cursor-pointer transition-transform hover:scale-105 active:scale-95 shadow-sm" title="Add to Cart">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
             </button>
           </div>
         </div>
@@ -604,7 +618,7 @@ window.shareOnWhatsApp = function(index) {
       imgPart = `\n\nHigh-Res Image: ${window.location.origin}/${product.image}`;
     }
   }
-  const shareText = `Hey! What do you think of this gorgeous handloom saree? Check it out on Reenat Trends: ${product.name} (${product.craft} from ${product.origin}) for $${product.price}.\n\nView details: ${productUrl}${imgPart}`;
+  const shareText = `Hey! What do you think of this gorgeous handloom saree? Check it out on Reenat Trends: ${product.name} (${product.craft} from ${product.origin}) for ₹${product.price.toLocaleString('en-IN')}.\n\nView details: ${productUrl}${imgPart}`;
   window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
 };
 
@@ -809,8 +823,8 @@ if (document.getElementById('product-list')) {
         <div class="space-y-2.5">
           <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Price Cap</h4>
           <div class="flex items-center gap-4 bg-slate-100/50 dark:bg-black/10 px-4 py-3 rounded-2xl border border-black/5">
-            <input type="range" id="price-filter-range" min="100" max="500" step="10" value="500" class="flex-1 accent-[#183fad] dark:accent-[#F1BF0A] cursor-pointer" />
-            <span class="text-xs font-bold text-slate-800 dark:text-white whitespace-nowrap bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-lg min-w-[95px] text-center" id="price-range-label">Under $500</span>
+            <input type="range" id="price-filter-range" min="1000" max="5000" step="100" value="5000" class="flex-1 accent-[#183fad] dark:accent-[#F1BF0A] cursor-pointer" />
+            <span class="text-xs font-bold text-slate-800 dark:text-white whitespace-nowrap bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-lg min-w-[110px] text-center" id="price-range-label">Under ₹5,000</span>
           </div>
         </div>
       </div>
@@ -844,7 +858,7 @@ if (document.getElementById('product-list')) {
 
   let selectedWeave = 'All';
   let selectedColor = 'All';
-  let maxPrice = 500;
+  let maxPrice = 5000;
 
   window.renderFilterOptions = function() {
     const weaveContainer = document.getElementById('weave-filter-options');
@@ -918,13 +932,13 @@ if (document.getElementById('product-list')) {
   window.clearFilters = function() {
     selectedWeave = 'All';
     selectedColor = 'All';
-    maxPrice = 500;
+    maxPrice = 5000;
     
     const slider = document.getElementById('price-filter-range');
-    if (slider) slider.value = 500;
+    if (slider) slider.value = 5000;
     
     const label = document.getElementById('price-range-label');
-    if (label) label.textContent = 'Under $500';
+    if (label) label.textContent = 'Under ₹5,000';
     
     renderFilterOptions();
     renderCatalog(products);
@@ -949,7 +963,7 @@ if (document.getElementById('product-list')) {
   if (priceRange && priceLabel) {
     priceRange.addEventListener('input', (e) => {
       maxPrice = Number(e.target.value);
-      priceLabel.textContent = `Under $${maxPrice}`;
+      priceLabel.textContent = `Under ₹${maxPrice.toLocaleString('en-IN')}`;
     });
   }
 }
