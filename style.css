@@ -317,6 +317,9 @@ body > header > div.w-full.flex.justify-center.overflow-hidden.py-4.sm\:py-6.sel
   #product-list, #related-product-list, #wishlist-root {
     gap: 8px !important;
   }
+  footer {
+    padding-bottom: 84px !important;
+  }
 }
 
 /* Footer Themes (High Contrast Readability) */
