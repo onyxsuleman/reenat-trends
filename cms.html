@@ -438,37 +438,42 @@
         <div class="bg-white dark:bg-slate-950 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
           <h3 class="text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider">Uploaded Images</h3>
           
+          <!-- Hidden File Input for Real Image Uploads -->
+          <input type="file" id="form-image-file-input" accept="image/*" class="hidden" onchange="handleImageUpload(event)" />
+          
           <div class="grid grid-cols-2 gap-3">
             <!-- Front Image Preview Slot -->
-            <div class="relative aspect-square rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-900 flex flex-col justify-between p-2">
+            <div class="relative aspect-square rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-900 flex flex-col justify-between p-2 cursor-pointer group" onclick="triggerImageUpload('front')">
               <img id="form-img-preview" src="saree_kanjivaram.png" class="absolute inset-0 w-full h-full object-cover" />
-              <button type="button" class="absolute top-2 right-2 size-5 bg-black/60 text-white rounded-full flex items-center justify-center text-[10px] font-bold select-none cursor-pointer" onclick="document.getElementById('form-img-preview').src=''">×</button>
-              <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-md rounded-lg py-1 px-1.5 text-center z-10">
+              <button type="button" class="absolute top-2 right-2 size-5 bg-black/60 text-white rounded-full flex items-center justify-center text-[10px] font-bold select-none cursor-pointer z-25" onclick="event.stopPropagation(); document.getElementById('form-img-preview').src=''; document.getElementById('form-image-custom').value=''">×</button>
+              <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-md rounded-lg py-1 px-1.5 text-center z-10 group-hover:bg-black/80 transition-colors">
                 <span class="text-[9px] font-bold text-white uppercase block">Front Image *</span>
-                <span class="text-[8px] font-bold text-amber-400 cursor-pointer block hover:underline" onclick="triggerCustomImagePrompt()">CHANGE</span>
+                <span class="text-[8px] font-bold text-amber-400 block">CLICK TO UPLOAD</span>
               </div>
             </div>
             
             <!-- Image 2 Placeholder Slot -->
-            <div class="relative aspect-square rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-900 flex flex-col justify-between p-2">
+            <div class="relative aspect-square rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-900 flex flex-col justify-between p-2 cursor-pointer group" onclick="triggerImageUpload('img2')">
               <img id="form-img-preview-2" src="saree_banarasi.png" class="absolute inset-0 w-full h-full object-cover" />
-              <button type="button" class="absolute top-2 right-2 size-5 bg-black/60 text-white rounded-full flex items-center justify-center text-[10px] font-bold select-none cursor-pointer" onclick="document.getElementById('form-img-preview-2').src=''">×</button>
-              <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-md rounded-lg py-1 px-1.5 text-center z-10">
+              <button type="button" class="absolute top-2 right-2 size-5 bg-black/60 text-white rounded-full flex items-center justify-center text-[10px] font-bold select-none cursor-pointer z-25" onclick="event.stopPropagation(); document.getElementById('form-img-preview-2').src=''">×</button>
+              <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-md rounded-lg py-1 px-1.5 text-center z-10 group-hover:bg-black/80 transition-colors">
                 <span class="text-[9px] font-bold text-white uppercase block">Image 2</span>
+                <span class="text-[8px] font-bold text-amber-400 block">CLICK TO UPLOAD</span>
               </div>
             </div>
             
             <!-- Image 3 Placeholder Slot -->
-            <div class="relative aspect-square rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-900 flex flex-col justify-between p-2">
+            <div class="relative aspect-square rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-900 flex flex-col justify-between p-2 cursor-pointer group" onclick="triggerImageUpload('img3')">
               <img id="form-img-preview-3" src="saree_chanderi.png" class="absolute inset-0 w-full h-full object-cover" />
-              <button type="button" class="absolute top-2 right-2 size-5 bg-black/60 text-white rounded-full flex items-center justify-center text-[10px] font-bold select-none cursor-pointer" onclick="document.getElementById('form-img-preview-3').src=''">×</button>
-              <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-md rounded-lg py-1 px-1.5 text-center z-10">
+              <button type="button" class="absolute top-2 right-2 size-5 bg-black/60 text-white rounded-full flex items-center justify-center text-[10px] font-bold select-none cursor-pointer z-25" onclick="event.stopPropagation(); document.getElementById('form-img-preview-3').src=''">×</button>
+              <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-md rounded-lg py-1 px-1.5 text-center z-10 group-hover:bg-black/80 transition-colors">
                 <span class="text-[9px] font-bold text-white uppercase block">Image 3</span>
+                <span class="text-[8px] font-bold text-amber-400 block">CLICK TO UPLOAD</span>
               </div>
             </div>
             
             <!-- Add Images Trigger Slot -->
-            <div class="aspect-square rounded-xl border border-dashed border-slate-350 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900 flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-800 transition-colors" onclick="triggerCustomImagePrompt()">
+            <div class="aspect-square rounded-xl border border-dashed border-slate-350 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900 flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-800 transition-colors" onclick="triggerImageUpload('front')">
               <div class="size-8 rounded-full bg-blue-50 dark:bg-slate-800 text-blue-650 dark:text-blue-400 flex items-center justify-center font-bold text-sm">
                 +
               </div>
@@ -478,7 +483,7 @@
           
           <!-- Hidden Inputs for actual Saree Image URLs -->
           <div class="pt-2">
-            <label for="form-image-custom" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Front Image URL / Path</label>
+            <label for="form-image-custom" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Front Image URL / Path (or Paste Base64)</label>
             <input type="text" id="form-image-custom" placeholder="assets/saree_kanjivaram.png or custom URL..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-800 dark:text-white focus:outline-none" oninput="document.getElementById('form-img-preview').src = this.value; document.getElementById('form-header-thumb').src = this.value" />
           </div>
         </div>
@@ -628,13 +633,33 @@
     const formTitle = document.getElementById('form-drawer-title');
     const formIndex = document.getElementById('form-saree-index');
 
-    window.triggerCustomImagePrompt = function() {
-      const url = prompt("Enter Custom Image URL or File Path:", document.getElementById('form-image-custom').value || "");
-      if (url !== null) {
-        document.getElementById('form-image-custom').value = url;
-        document.getElementById('form-img-preview').src = url;
-        document.getElementById('form-header-thumb').src = url;
-      }
+    let activeUploadSlot = 'front';
+
+    window.triggerImageUpload = function(slot) {
+      activeUploadSlot = slot;
+      document.getElementById('form-image-file-input').click();
+    }
+
+    window.handleImageUpload = function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        
+        if (activeUploadSlot === 'front') {
+          document.getElementById('form-img-preview').src = dataUrl;
+          document.getElementById('form-header-thumb').src = dataUrl;
+          document.getElementById('form-image-custom').value = dataUrl;
+        } else if (activeUploadSlot === 'img2') {
+          document.getElementById('form-img-preview-2').src = dataUrl;
+        } else if (activeUploadSlot === 'img3') {
+          document.getElementById('form-img-preview-3').src = dataUrl;
+        }
+        showToast('Image uploaded successfully!', 'success');
+      };
+      reader.readAsDataURL(file);
     }
 
     window.openFormDrawer = function(index) {
