@@ -154,6 +154,7 @@
           <table class="w-full text-xs text-left border-collapse">
             <thead>
               <tr class="bg-slate-50 dark:bg-black/20 text-slate-400 border-b border-black/5 dark:border-white/5 font-semibold text-[10px] uppercase tracking-wider">
+                <th class="p-4 w-12 text-center">#</th>
                 <th class="p-4 w-20">Saree</th>
                 <th class="p-4">Name</th>
                 <th class="p-4">Weave Type</th>
@@ -593,7 +594,7 @@
       if (items.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="6" class="p-8 text-center text-slate-500 dark:text-slate-400">
+            <td colspan="7" class="p-8 text-center text-slate-500 dark:text-slate-400">
               No saree items in the catalog. Click "+ Add New Saree" to list items.
             </td>
           </tr>
@@ -603,6 +604,7 @@
 
       tbody.innerHTML = items.map((item, idx) => `
         <tr class="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors border-b border-black/5 dark:border-white/5">
+          <td class="p-4 text-center font-bold text-slate-500 dark:text-slate-400">${idx + 1}</td>
           <td class="p-4">
             <img src="${item.image}" alt="${item.name}" class="size-10 object-cover rounded-lg shadow-sm border border-black/5" />
           </td>
