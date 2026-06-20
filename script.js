@@ -11,7 +11,7 @@ const defaultProducts = [
 ];
 
 let products = JSON.parse(localStorage.getItem('products'));
-if (products && products.length && (products[0].price < 1000 || !products[0].hasOwnProperty('color') || !products[0].hasOwnProperty('rating'))) {
+if (products && products.length && (!products[0].hasOwnProperty('color') || !products[0].hasOwnProperty('rating'))) {
   localStorage.removeItem('products');
   products = null;
 }
