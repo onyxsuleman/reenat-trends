@@ -172,11 +172,8 @@
     </div>
   </main>
 
-  <!-- Add/Edit Form Drawer -->
-  <div id="form-drawer-backdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9500] hidden opacity-0 transition-opacity duration-300"></div>
-  <!-- Add/Edit Form Panel -->
-  <div id="form-drawer-backdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9500] hidden opacity-0 transition-opacity duration-300"></div>
-  <div id="form-drawer-panel" class="fixed top-0 right-0 h-full w-full max-w-6xl bg-slate-50 dark:bg-slate-900 shadow-2xl border-l border-slate-200 dark:border-slate-800 z-[9501] transform translate-x-full transition-transform duration-300 flex flex-col">
+  <!-- Add/Edit Form Panel (Full Page Overlay) -->
+  <div id="form-drawer-panel" class="fixed inset-0 w-screen h-screen bg-slate-50 dark:bg-slate-900 z-[9501] hidden flex flex-col overflow-hidden">
     
     <div class="px-6 py-4 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex flex-col gap-3 shrink-0">
       <div class="flex items-center gap-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white cursor-pointer select-none text-xs font-semibold uppercase tracking-wider" onclick="closeFormDrawer()">
@@ -628,7 +625,6 @@
     }
 
     // Modal Drawer triggers
-    const formDrawerBackdrop = document.getElementById('form-drawer-backdrop');
     const formDrawerPanel = document.getElementById('form-drawer-panel');
     const formTitle = document.getElementById('form-drawer-title');
     const formIndex = document.getElementById('form-saree-index');
@@ -738,19 +734,11 @@
       // Update character counter
       document.getElementById('desc-char-count').textContent = document.getElementById('form-desc').value.length + '/1400';
 
-      formDrawerBackdrop.classList.remove('hidden');
-      setTimeout(() => {
-        formDrawerBackdrop.classList.add('opacity-100');
-        formDrawerPanel.classList.remove('translate-x-full');
-      }, 10);
+      formDrawerPanel.classList.remove('hidden');
     }
 
     window.closeFormDrawer = function() {
-      formDrawerBackdrop.classList.remove('opacity-100');
-      formDrawerPanel.classList.add('translate-x-full');
-      setTimeout(() => {
-        formDrawerBackdrop.classList.add('hidden');
-      }, 300);
+      formDrawerPanel.classList.add('hidden');
     }
 
     // Submit handler
