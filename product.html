@@ -291,117 +291,260 @@
       if (breadcrumbCurrent) breadcrumbCurrent.textContent = product.name + ' Saree';
       document.title = `${product.name} Saree — Reenat Trends`;
 
+      const discountPercent = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+      const onlinePrice = product.price - 100;
+
       root.innerHTML = `
-        <!-- Left: Interactive Gallery & Trust Badges (5 Columns on Medium+) -->
-        <div class="md:col-span-6 space-y-6">
-          <!-- Main Zoom Container -->
-          <div id="main-image-container" class="relative overflow-hidden aspect-square bg-[#0c1e44]/5 dark:bg-black/20 rounded-3xl border border-black/5 dark:border-white/10 glass shadow-md cursor-zoom-in group select-none">
-            <img id="main-product-image" src="${product.image}" alt="${product.name}" data-product-index="${productId}" class="product-image-tap w-full h-full object-cover rounded-2xl transition-transform duration-250 ease-out origin-center" />
-            <div class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full pointer-events-none opacity-80 group-hover:opacity-0 transition-opacity">
+        <!-- Custom CSS for Meesho Mobile Style -->
+        <style>
+          @media (max-width: 767px) {
+            body {
+              padding-top: 56px !important;
+              padding-bottom: 72px !important;
+              background-color: #f8f9fa !important;
+            }
+            nav[class*="text-xs"] {
+              display: none !important;
+            }
+            nav[class*="flex"] {
+              display: none !important;
+            }
+            main {
+              margin-top: 0 !important;
+              padding: 0 !important;
+            }
+            .mobile-only-header {
+              display: flex !important;
+              background-color: #ffffff !important;
+              border-bottom: 1px solid #e2e8f0 !important;
+            }
+            .mobile-only-header a, .mobile-only-header span {
+              color: #0f172a !important;
+            }
+            .dark .mobile-only-header {
+              background-color: #0f1e44 !important;
+              border-bottom-color: #1e293b !important;
+            }
+            .dark .mobile-only-header a, .dark .mobile-only-header span {
+              color: #ffffff !important;
+            }
+            .mobile-sticky-bar {
+              display: flex !important;
+              background-color: #ffffff !important;
+              border-top: 1px solid #e2e8f0 !important;
+            }
+            .dark .mobile-sticky-bar {
+              background-color: #0f1e44 !important;
+              border-top-color: #1e293b !important;
+            }
+            .mobile-sticky-btn-secondary {
+              background-color: #ffffff !important;
+              color: #0f172a !important;
+              border: 1px solid #cbd5e1 !important;
+            }
+            .dark .mobile-sticky-btn-secondary {
+              background-color: #1e293b !important;
+              color: #ffffff !important;
+              border-color: #475569 !important;
+            }
+            .mobile-card {
+              background-color: #ffffff;
+              margin-bottom: 8px;
+              padding: 16px;
+              border-bottom: 1px solid #eef0f2;
+            }
+            .dark .mobile-card {
+              background-color: #0f1e44;
+              border-bottom-color: #1e293b;
+            }
+          }
+        </style>
+
+        <!-- Mobile Header (Hidden on Desktop) -->
+        <div class="mobile-only-header fixed top-0 left-0 right-0 h-14 flex items-center justify-between px-4 z-50 md:hidden">
+          <div class="flex items-center gap-3">
+            <a href="index.html" class="p-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+              </svg>
+            </a>
+            <span class="font-anton tracking-wide text-base uppercase">Reenat Trends</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <a href="wishlist.html" class="relative">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+              </svg>
+            </a>
+            <a href="cart.html" class="relative">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Left Column: Media Gallery, Thumbnail Strip -->
+        <div class="col-span-1 md:col-span-6 space-y-4 md:space-y-6">
+          <!-- Main Product Image Carousel Area -->
+          <div id="main-image-container" class="relative overflow-hidden aspect-[3/4] md:aspect-square bg-slate-100 dark:bg-black/20 md:rounded-3xl border border-black/5 dark:border-white/10 shadow-sm md:shadow-md cursor-zoom-in group select-none">
+            <img id="main-product-image" src="${product.image}" alt="${product.name}" data-product-index="${productId}" class="product-image-tap w-full h-full object-cover rounded-none md:rounded-2xl transition-transform duration-250 ease-out origin-center" />
+            
+            <!-- Mobile Slider Indicator dots -->
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20 md:hidden bg-black/35 px-2.5 py-1 rounded-full">
+              <span class="w-1.5 h-1.5 rounded-full bg-white transition-all duration-300" id="dot-0"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all duration-300" id="dot-1"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all duration-300" id="dot-2"></span>
+            </div>
+            
+            <div class="hidden md:block absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full pointer-events-none opacity-80 group-hover:opacity-0 transition-opacity">
               Hover to Zoom
             </div>
           </div>
-          
-          <!-- Thumbnail Row (Same image positioned differently to show weave details) -->
-          <div class="grid grid-cols-3 gap-3">
-            <button onclick="changeActiveImage('${product.image}', 0)" class="thumbnail-btn aspect-square rounded-2xl border-2 border-[#183fad] dark:border-[#F1BF0A] overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all">
-              <img src="${product.image}" class="w-full h-full object-cover" alt="Full Drape view" />
-            </button>
-            <button onclick="changeActiveImage('${product.image}', 1)" class="thumbnail-btn aspect-square rounded-2xl border border-black/10 dark:border-white/10 opacity-70 hover:opacity-100 overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all">
-              <img src="${product.image}" class="w-full h-full object-cover object-top" alt="Pallu Detail view" />
-            </button>
-            <button onclick="changeActiveImage('${product.image}', 2)" class="thumbnail-btn aspect-square rounded-2xl border border-black/10 dark:border-white/10 opacity-70 hover:opacity-100 overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all">
-              <img src="${product.image}" class="w-full h-full object-cover object-bottom" alt="Border Detail view" />
-            </button>
-          </div>
 
-          <!-- Trust Badges & Certification Seals -->
-          <div class="bg-white/40 dark:bg-[#0c1e44]/15 border border-black/5 dark:border-white/5 rounded-3xl p-5 glass space-y-4">
-            <h4 class="text-xs uppercase tracking-widest text-[#d9a05b] font-bold">Guaranteed Authenticity</h4>
-            <div class="grid grid-cols-3 gap-3 text-center">
-              <div class="flex flex-col items-center p-2 rounded-xl bg-white/30 dark:bg-black/15 border border-black/5 dark:border-white/5">
-                <div class="text-amber-500 dark:text-amber-400 text-xl font-anton select-none">HM</div>
-                <span class="text-[9px] font-bold text-slate-800 dark:text-slate-200 mt-1.5 block leading-tight">Handloom Mark</span>
-                <span class="text-[8px] text-slate-400 mt-0.5 leading-none block">100% Handloom</span>
-              </div>
-              <div class="flex flex-col items-center p-2 rounded-xl bg-white/30 dark:bg-black/15 border border-black/5 dark:border-white/5">
-                <div class="text-indigo-600 dark:text-[#cfe3ff] text-xl font-anton select-none">SM</div>
-                <span class="text-[9px] font-bold text-slate-800 dark:text-slate-200 mt-1.5 block leading-tight">Silk Mark</span>
-                <span class="text-[8px] text-slate-400 mt-0.5 leading-none block">Pure Natural Silk</span>
-              </div>
-              <div class="flex flex-col items-center p-2 rounded-xl bg-white/30 dark:bg-black/15 border border-black/5 dark:border-white/5">
-                <div class="text-[#d9a05b] text-xl font-anton select-none">PZ</div>
-                <span class="text-[9px] font-bold text-slate-800 dark:text-slate-200 mt-1.5 block leading-tight">Pure Zari</span>
-                <span class="text-[8px] text-slate-400 mt-0.5 leading-none block">Tested Metallic thread</span>
-              </div>
+          <!-- Similar Products / Thumbnails Area -->
+          <div class="mobile-card md:bg-transparent md:border-0 md:p-0">
+            <span class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2.5 md:hidden">Similar Products</span>
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+              <button onclick="changeActiveImage('${product.image}', 0)" class="thumbnail-btn flex-shrink-0 size-16 md:size-20 rounded-xl border-2 border-[#183fad] dark:border-[#F1BF0A] overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all">
+                <img src="${product.image}" class="w-full h-full object-cover" alt="Full Drape view" />
+              </button>
+              <button onclick="changeActiveImage('${product.image}', 1)" class="thumbnail-btn flex-shrink-0 size-16 md:size-20 rounded-xl border border-black/10 dark:border-white/10 opacity-70 hover:opacity-100 overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all">
+                <img src="${product.image}" class="w-full h-full object-cover object-top" alt="Pallu Detail view" />
+              </button>
+              <button onclick="changeActiveImage('${product.image}', 2)" class="thumbnail-btn flex-shrink-0 size-16 md:size-20 rounded-xl border border-black/10 dark:border-white/10 opacity-70 hover:opacity-100 overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all">
+                <img src="${product.image}" class="w-full h-full object-cover object-bottom" alt="Border Detail view" />
+              </button>
             </div>
           </div>
         </div>
-        
-        <!-- Right: Specs and Customizations (6 Columns on Medium+) -->
-        <div class="md:col-span-6 space-y-6">
-          <div>
-            <span class="text-xs uppercase tracking-[0.25em] text-[#d9a05b] font-bold">Traditional Handloom ${product.type}</span>
-            <h1 class="text-3xl sm:text-4xl font-anton text-slate-800 dark:text-white mt-1.5 tracking-wider">${product.name} Saree</h1>
-            
-            <div class="flex items-center gap-3 mt-3 flex-wrap">
-              <!-- Rating Summary -->
-              <div class="flex items-center gap-1.5 mr-2">
-                <span class="text-[#F1BF0A] text-xs">★★★★★</span>
-                <span class="text-xs text-slate-500 dark:text-slate-400 font-semibold">(142 reviews)</span>
+
+        <!-- Right Column: Specs, Badges and Actions -->
+        <div class="col-span-1 md:col-span-6 space-y-2 md:space-y-4">
+          
+          <!-- Product Title and Pricing Card -->
+          <div class="mobile-card md:bg-white/40 md:dark:bg-[#0c1e44]/15 md:border md:border-black/5 md:dark:border-white/5 md:rounded-3xl md:p-5 md:glass space-y-3">
+            <div class="flex justify-between items-start gap-4">
+              <div>
+                <span class="text-[11px] uppercase tracking-widest text-[#d9a05b] font-bold">Traditional Handloom ${product.type}</span>
+                <h1 class="text-xl md:text-2xl font-semibold text-slate-800 dark:text-white mt-0.5 leading-snug">${product.name} Saree With Blouse</h1>
               </div>
-              <div class="h-4 w-px bg-slate-200 dark:bg-slate-700"></div>
-              <div class="flex items-center gap-2">
-                <span class="text-2xl font-bold text-slate-900 dark:text-white">₹${product.price.toLocaleString('en-IN')}</span>
+              <div class="flex items-center gap-3.5 mt-1 shrink-0">
+                <button onclick="triggerAddToWishlist()" class="text-slate-500 hover:text-rose-500 dark:text-slate-400 dark:hover:text-rose-400 transition-colors p-1" title="Wishlist">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                  </svg>
+                </button>
+                <button onclick="shareActiveProductOnWhatsApp()" class="text-slate-500 hover:text-emerald-500 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors p-1" title="Share Spec Sheet">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Rating badge next to title -->
+            <div class="flex items-center gap-2 mt-1">
+              <span class="inline-flex items-center gap-0.5 bg-emerald-600 dark:bg-emerald-500 text-white text-[11px] font-bold px-2 py-0.5 rounded-md">
+                <span>4.2</span>
+                <span class="text-[9px]">★</span>
+              </span>
+              <span class="text-xs text-slate-400 font-medium">128 Ratings, 15 Reviews</span>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 dark:border-slate-800/60 mt-2">
+              <div class="flex items-baseline gap-2">
+                <span class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">₹${product.price.toLocaleString('en-IN')}</span>
                 <span class="text-sm line-through text-slate-400">₹${product.originalPrice.toLocaleString('en-IN')}</span>
-                <span class="text-xs bg-emerald-100 dark:bg-emerald-950/50 text-[#16a34a] dark:text-[#25D366] px-2.5 py-0.5 rounded-full font-bold">${Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF</span>
+                <span class="text-xs bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-[#25D366] px-2 py-0.5 rounded-full font-bold ml-1">${discountPercent}% OFF</span>
+              </div>
+            </div>
+
+            <!-- Special Offer Banner -->
+            <div class="bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 rounded-xl p-3 flex items-center justify-between text-xs text-emerald-800 dark:text-emerald-350 mt-3">
+              <div class="flex items-center gap-2">
+                <span class="bg-emerald-600 text-white font-bold px-1.5 py-0.2 rounded text-[10px]">OFFER</span>
+                <span>Get this as low as <strong class="font-bold">₹${onlinePrice.toLocaleString('en-IN')}</strong></span>
+              </div>
+              <span class="font-semibold text-[10px] text-emerald-600 dark:text-emerald-400">Buy Online | Extra ₹100 Off ></span>
+            </div>
+          </div>
+
+          <!-- Trust Badges Section -->
+          <div class="mobile-card md:bg-white/40 md:dark:bg-[#0c1e44]/15 md:border md:border-black/5 md:dark:border-white/5 md:rounded-3xl md:p-4 md:glass">
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="flex flex-col items-center p-2 rounded-xl bg-slate-50 dark:bg-slate-900/40">
+                <div class="bg-indigo-100 dark:bg-indigo-950/40 p-2 rounded-full mb-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5 text-[#183fad] dark:text-[#cfe3ff]">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5h16.5M5.25 7.5h13.5m-12 9h10.5M5.25 15h13.5m-12.75-6h12" />
+                  </svg>
+                </div>
+                <span class="text-[10px] font-bold text-slate-800 dark:text-slate-200">Lowest Price</span>
+              </div>
+              <div class="flex flex-col items-center p-2 rounded-xl bg-slate-50 dark:bg-slate-900/40">
+                <div class="bg-emerald-100 dark:bg-emerald-950/40 p-2 rounded-full mb-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5 text-emerald-600 dark:text-emerald-400">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 4.73 3h14.54a1.125 1.125 0 0 1 1.12 1.243l-1.264 12a1.125 1.125 0 0 1-1.12 1.243m-4.5 0H5.625" />
+                  </svg>
+                </div>
+                <span class="text-[10px] font-bold text-slate-800 dark:text-slate-200">Cash on Delivery</span>
+              </div>
+              <div class="flex flex-col items-center p-2 rounded-xl bg-slate-50 dark:bg-slate-900/40">
+                <div class="bg-rose-100 dark:bg-rose-950/40 p-2 rounded-full mb-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5 text-rose-500 dark:text-rose-455">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                  </svg>
+                </div>
+                <span class="text-[10px] font-bold text-slate-800 dark:text-slate-200">7 Days Return</span>
               </div>
             </div>
           </div>
-          
-          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">${product.desc}</p>
-          
-          <!-- Specifications list -->
-          <div class="bg-white/40 dark:bg-black/10 border border-black/5 dark:border-white/10 rounded-2xl p-4 overflow-hidden">
-            <h3 class="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3 border-b border-black/5 dark:border-white/5 pb-2">Weaver Specifications</h3>
-            <table class="w-full text-xs text-left text-slate-600 dark:text-slate-300">
-              <tr class="border-b border-black/5 dark:border-white/5 pb-2">
-                <td class="py-1.5 font-medium text-slate-400">Origin / Cluster</td>
-                <td class="py-1.5 text-slate-800 dark:text-white font-semibold">${product.origin}</td>
-              </tr>
-              <tr class="border-b border-black/5 dark:border-white/5 pb-2">
-                <td class="py-1.5 font-medium text-slate-400">Weft / Brocade Type</td>
-                <td class="py-1.5 text-slate-800 dark:text-white font-semibold">${product.craft}</td>
-              </tr>
-              <tr>
-                <td class="py-1.5 font-medium text-slate-400">Fabric base</td>
-                <td class="py-1.5 text-slate-800 dark:text-white font-semibold">100% Handloom Mulberry Silk</td>
-              </tr>
-            </table>
+
+          <!-- Description and Specs Accordions (Clean highlights block) -->
+          <div class="mobile-card md:bg-white/40 md:dark:bg-[#0c1e44]/15 md:border md:border-black/5 md:dark:border-white/5 md:rounded-3xl md:p-5 md:glass space-y-4">
+            <h2 class="text-sm font-bold text-slate-850 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-slate-800">Product Highlights</h2>
+            <div class="grid grid-cols-2 gap-x-4 gap-y-3.5 text-xs">
+              <div>
+                <span class="text-slate-400 block mb-0.5">Blouse</span>
+                <span class="font-semibold text-slate-700 dark:text-white">Running Blouse</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block mb-0.5">Saree Fabric</span>
+                <span class="font-semibold text-slate-700 dark:text-white">Georgette / Silk</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block mb-0.5">Transparency</span>
+                <span class="font-semibold text-slate-700 dark:text-white">No</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block mb-0.5">Net Quantity (N)</span>
+                <span class="font-semibold text-slate-700 dark:text-white">Single</span>
+              </div>
+            </div>
           </div>
 
           <!-- Configuration and Saree Customization Options -->
-          <div class="bg-white/50 dark:bg-[#0c1e44]/25 border border-black/5 dark:border-white/10 rounded-3xl p-5 space-y-5 glass">
+          <div class="mobile-card md:bg-white/50 md:dark:bg-[#0c1e44]/25 md:border md:border-black/5 md:dark:border-white/10 md:rounded-3xl md:p-5 space-y-5 md:glass">
             <h3 class="font-bold text-sm text-slate-800 dark:text-white uppercase tracking-wider">Configure Options</h3>
             
             <!-- Option 1: Blouse Stitching Customization -->
             <div class="space-y-2.5">
               <span class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">1. Blouse Customization</span>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                <label class="cursor-pointer border border-slate-200 dark:border-slate-800 dark:bg-black/20 rounded-2xl p-3 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
+              <div class="grid grid-cols-3 gap-2.5">
+                <label class="cursor-pointer border border-slate-200 dark:border-slate-850 dark:bg-black/20 rounded-xl p-2.5 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
                   <input type="radio" name="blouse-option" value="Unstitched" checked onchange="handleOptionsChange()" class="sr-only" />
-                  <span class="text-xs font-bold text-slate-800 dark:text-white">Unstitched Fabric</span>
-                  <span class="text-[10px] text-slate-400 mt-1">Included</span>
+                  <span class="text-[11px] font-bold text-slate-800 dark:text-white">Unstitched</span>
+                  <span class="text-[9px] text-slate-400 mt-1">Included</span>
                 </label>
-                <label class="cursor-pointer border border-slate-200 dark:border-slate-800 dark:bg-black/20 rounded-2xl p-3 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
+                <label class="cursor-pointer border border-slate-200 dark:border-slate-850 dark:bg-black/20 rounded-xl p-2.5 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
                   <input type="radio" name="blouse-option" value="Standard" onchange="handleOptionsChange()" class="sr-only" />
-                  <span class="text-xs font-bold text-slate-800 dark:text-white">Standard Stitched</span>
-                  <span class="text-[10px] text-[#d9a05b] font-semibold mt-1">+₹250</span>
+                  <span class="text-[11px] font-bold text-slate-800 dark:text-white">Standard</span>
+                  <span class="text-[9px] text-[#d9a05b] font-semibold mt-1">+₹250</span>
                 </label>
-                <label class="cursor-pointer border border-slate-200 dark:border-slate-800 dark:bg-black/20 rounded-2xl p-3 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
+                <label class="cursor-pointer border border-slate-200 dark:border-slate-850 dark:bg-black/20 rounded-xl p-2.5 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
                   <input type="radio" name="blouse-option" value="Custom" onchange="handleOptionsChange()" class="sr-only" />
-                  <span class="text-xs font-bold text-slate-800 dark:text-white">Custom Sizing</span>
-                  <span class="text-[10px] text-[#d9a05b] font-semibold mt-1">+₹450</span>
+                  <span class="text-[11px] font-bold text-slate-800 dark:text-white">Custom</span>
+                  <span class="text-[9px] text-[#d9a05b] font-semibold mt-1">+₹450</span>
                 </label>
               </div>
 
@@ -423,7 +566,7 @@
               <!-- Custom Sizing Panel (revealed dynamically) -->
               <div id="custom-stitch-panel" class="hidden pt-3 border-t border-black/5 dark:border-white/5 space-y-2.5">
                 <span class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400">Provide body measurements in inches:</span>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div class="grid grid-cols-2 gap-2">
                   <div>
                     <label class="block text-[10px] text-slate-400 mb-0.5">Chest</label>
                     <input type="text" id="measure-chest" placeholder="36" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 dark:text-white focus:outline-none" />
@@ -432,108 +575,63 @@
                     <label class="block text-[10px] text-slate-400 mb-0.5">Waist</label>
                     <input type="text" id="measure-waist" placeholder="30" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 dark:text-white focus:outline-none" />
                   </div>
-                  <div>
-                    <label class="block text-[10px] text-slate-400 mb-0.5">Front Neck</label>
-                    <input type="text" id="measure-neck" placeholder="7.5" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 dark:text-white focus:outline-none" />
-                  </div>
-                  <div>
-                    <label class="block text-[10px] text-slate-400 mb-0.5">Length</label>
-                    <input type="text" id="measure-length" placeholder="14" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 dark:text-white focus:outline-none" />
-                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Option 2: Tassels Additions -->
             <div class="space-y-2.5 pt-3 border-t border-black/5 dark:border-white/5">
-              <span class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">2. Tassel Addition (Pico & Fall)</span>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <label class="cursor-pointer border border-slate-200 dark:border-slate-800 dark:bg-black/20 rounded-2xl p-3 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
+              <span class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">2. Tassel Addition</span>
+              <div class="grid grid-cols-2 gap-2.5">
+                <label class="cursor-pointer border border-slate-200 dark:border-slate-850 dark:bg-black/20 rounded-xl p-2.5 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
                   <input type="radio" name="tassels-option" value="None" checked onchange="handleOptionsChange()" class="sr-only" />
                   <span class="text-xs font-bold text-slate-800 dark:text-white">No Tassels</span>
                   <span class="text-[10px] text-slate-400 mt-1">Included</span>
                 </label>
-                <label class="cursor-pointer border border-slate-200 dark:border-slate-800 dark:bg-black/20 rounded-2xl p-3 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
+                <label class="cursor-pointer border border-slate-200 dark:border-slate-850 dark:bg-black/20 rounded-xl p-2.5 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
                   <input type="radio" name="tassels-option" value="Silk Tassels" onchange="handleOptionsChange()" class="sr-only" />
-                  <span class="text-xs font-bold text-slate-800 dark:text-white">Silk Tassels & Pico</span>
+                  <span class="text-xs font-bold text-slate-800 dark:text-white">Silk Tassels</span>
                   <span class="text-[10px] text-[#d9a05b] font-semibold mt-1">+₹100</span>
                 </label>
               </div>
             </div>
 
-            <!-- Visual Feedback Price Summary -->
-            <div class="bg-white/50 dark:bg-black/25 rounded-2xl p-4 border border-black/5 dark:border-white/5 flex items-center justify-between">
+            <!-- Configured Price Card -->
+            <div class="bg-slate-50 dark:bg-black/25 rounded-2xl p-4 border border-black/5 dark:border-white/5 flex items-center justify-between">
               <div>
-                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Configured Price</span>
-                <span class="text-xs text-slate-500 dark:text-slate-350" id="config-sub-label">Base Saree + Customizations</span>
+                <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Total Price</span>
+                <span class="text-[10px] text-slate-500 dark:text-slate-350" id="config-sub-label">Base Saree + Customizations</span>
               </div>
-              <span class="text-2xl font-bold text-slate-900 dark:text-white" id="configured-total-price">₹${product.price.toLocaleString('en-IN')}</span>
+              <span class="text-xl font-bold text-slate-900 dark:text-white" id="configured-total-price">₹${product.price.toLocaleString('en-IN')}</span>
             </div>
 
-            <!-- Actions Buttons -->
-            <div class="flex flex-col sm:flex-row gap-3">
-              <button onclick="triggerAddToCart()" class="flex-1 bg-[#183fad] hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full border border-[#183fad] transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-md cursor-pointer text-center text-sm">Add Customized Saree to Cart</button>
-              <button onclick="triggerAddToWishlist()" class="bg-white dark:bg-slate-800 hover:bg-rose-500 hover:text-white dark:hover:bg-rose-500 text-rose-500 dark:text-slate-200 font-semibold py-3 px-6 rounded-full border border-slate-200 dark:border-slate-700 transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-sm cursor-pointer text-center text-sm">Add to Wishlist</button>
+            <!-- Desktop Action Buttons (Hidden on Mobile) -->
+            <div class="hidden md:flex gap-3">
+              <button onclick="triggerAddToCart()" class="flex-1 bg-[#183fad] hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full border border-[#183fad] transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-md cursor-pointer text-center text-sm">Add to Cart</button>
+              <button onclick="triggerAddToWishlist()" class="bg-white dark:bg-slate-800 hover:bg-rose-500 hover:text-white dark:hover:bg-rose-500 text-rose-500 dark:text-slate-200 font-semibold py-3 px-6 rounded-full border border-slate-200 dark:border-slate-700 transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-sm cursor-pointer text-center text-sm">Wishlist</button>
             </div>
-            
-            <button onclick="shareActiveProductOnWhatsApp()" class="w-full bg-[#25D366] hover:bg-emerald-600 text-white font-semibold py-3 px-6 rounded-full border border-[#25D366] transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-sm cursor-pointer text-center text-xs flex items-center justify-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4"><path d="M12.012 2c-5.506 0-9.972 4.466-9.972 9.974 0 1.758.459 3.479 1.33 5.003L2.028 22l5.166-1.355a9.92 9.92 0 0 0 4.814 1.258h.004c5.503 0 9.973-4.467 9.973-9.975C21.985 6.467 17.518 2 12.012 2zm5.727 13.993c-.25.707-1.464 1.3-2.025 1.385-.561.085-1.042.348-3.486-.643-2.937-1.196-4.81-4.184-4.957-4.382-.148-.198-1.197-1.591-1.197-3.036 0-1.444.757-2.15 1.026-2.433.269-.283.593-.354.79-.354.198 0 .396.002.567.01.178.008.419-.068.657.506.25.599.852 2.083.926 2.233.074.15.124.325.025.525-.099.2-.148.324-.297.499-.148.175-.313.39-.446.524-.148.15-.304.312-.132.607.172.296.764 1.259 1.636 2.036.873.778 1.611 1.018 1.908 1.168.297.15.469.125.643-.075.172-.2.757-.881.956-1.181.2-.3.4-.25.674-.15.275.1 1.748.824 2.049.975.301.15.501.225.576.35.074.125.074.723-.176 1.43z"/></svg>
-              <span>Share Specs on WhatsApp</span>
-            </button>
-          </div>
-
-          <!-- Description / Weaving details accordions -->
-          <div class="border-t border-slate-200 dark:border-slate-800 pt-4 space-y-1 text-xs text-slate-600 dark:text-slate-300">
-            <!-- Details 1 -->
-            <details class="group border-b border-black/5 dark:border-white/5 py-4 cursor-pointer" open>
-              <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-xs uppercase tracking-wider select-none">
-                <span>Product Details & Craftsmanship</span>
-                <span class="text-slate-400 group-open:rotate-180 transition-transform duration-200">▼</span>
-              </summary>
-              <div class="mt-3 leading-relaxed space-y-2 text-slate-600 dark:text-slate-300 cursor-default">
-                <p>This premium saree features masterfully interlaced pure gold and silver coated metallic threads (Zari). Handcrafted on traditional timber fly-shuttle pit looms using centuries-old drafting cards.</p>
-                <ul class="list-disc pl-4 space-y-1">
-                  <li><strong>Yarn count:</strong> Warp 2/120 warp, Weft 80s count silk.</li>
-                  <li><strong>Loom duration:</strong> Woven in approximately 180 hours by two skilled weavers.</li>
-                  <li><strong>Zari test:</strong> 55% Silver, 0.5% pure Gold electroplating, rest cotton core.</li>
-                  <li>Saree comes with standard running matching silk blouse fabric piece (80cm).</li>
-                </ul>
-              </div>
-            </details>
-
-            <!-- Details 2 -->
-            <details class="group border-b border-black/5 dark:border-white/5 py-4 cursor-pointer">
-              <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-xs uppercase tracking-wider select-none">
-                <span>Fabric & Care Instructions</span>
-                <span class="text-slate-400 group-open:rotate-180 transition-transform duration-200">▼</span>
-              </summary>
-              <div class="mt-3 leading-relaxed space-y-2 text-slate-600 dark:text-slate-300 cursor-default">
-                <p>This saree is woven with raw natural silk fibers which possess unique texture irregularities that confirm its authentic handloom origin.</p>
-                <ul class="list-disc pl-4 space-y-1">
-                  <li><strong>Dry Clean Only:</strong> We strongly recommend dry cleaning to preserve colors and thread sheen.</li>
-                  <li><strong>Storage:</strong> Wrap in soft muslin cloth. Avoid hanging on metal hangers; store folded horizontally.</li>
-                  <li><strong>Ironing:</strong> Use a low-heat setting and place a thin protective cloth layer over the saree before ironing.</li>
-                </ul>
-              </div>
-            </details>
-
-            <!-- Details 3 -->
-            <details class="group border-b border-black/5 dark:border-white/5 py-4 cursor-pointer">
-              <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-xs uppercase tracking-wider select-none">
-                <span>Shipping & Express Returns</span>
-                <span class="text-slate-400 group-open:rotate-180 transition-transform duration-200">▼</span>
-              </summary>
-              <div class="mt-3 leading-relaxed space-y-2 text-slate-600 dark:text-slate-300 cursor-default">
-                <p>We believe in high-standard luxury care. Every saree is packed in premium, humidity-controlled gift boxes.</p>
-                <ul class="list-disc pl-4 space-y-1">
-                  <li><strong>Free Express Shipping:</strong> Dispatched in 24-48 hours. Delivered via DHL/FedEx Express globally in 4-6 business days.</li>
-                  <li><strong>7-day Return Window:</strong> If you aren't wowed, return the saree in original packaging within 7 days. Note: Stitched standard/custom size blouses are final sale and non-returnable.</li>
-                </ul>
-              </div>
-            </details>
           </div>
         </div>
+
+        <!-- Sticky Footer Navigation Bar for Mobile View (Hidden on Desktop) -->
+        <div class="mobile-sticky-bar fixed bottom-0 left-0 right-0 h-16 border-t items-center justify-between px-4 z-40 md:hidden shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+          <button onclick="triggerAddToCart()" class="mobile-sticky-btn-secondary w-[48%] h-11 font-bold rounded-xl text-xs shadow-sm flex items-center justify-center gap-1.5 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+            </svg>
+            <span>Add to Cart</span>
+          </button>
+          <button onclick="triggerBuyNow()" class="w-[48%] h-11 bg-[#F1BF0A] hover:bg-yellow-500 text-slate-900 font-bold rounded-xl text-xs shadow-sm flex items-center justify-center gap-1.5 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+            </svg>
+            <span>Buy Now</span>
+          </button>
+        </div>
       `;
+
+      // Active slide dots highlight initialization
+      changeMobileSlideDot(0);
 
       // Zoom listener attach
       const zoomContainer = document.getElementById('main-image-container');
@@ -555,6 +653,20 @@
       handleOptionsChange(); // Sync initial options
     }
 
+    // Update active slide dot indicator
+    function changeMobileSlideDot(index) {
+      for (let i = 0; i < 3; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (dot) {
+          if (i === index) {
+            dot.className = "w-3 h-1.5 rounded-full bg-white transition-all duration-300";
+          } else {
+            dot.className = "w-1.5 h-1.5 rounded-full bg-white/50 transition-all duration-300";
+          }
+        }
+      }
+    }
+
     // Change zoom container main image and toggle thumbnail active style
     window.changeActiveImage = function(imgSrc, index) {
       const mainImg = document.getElementById('main-product-image');
@@ -562,19 +674,22 @@
 
       // Adjust image focal positions based on index to simulate cropped detail angles
       if (index === 0) {
-        mainImg.className = "w-full h-full object-cover rounded-2xl transition-transform duration-250 ease-out origin-center";
+        mainImg.className = "w-full h-full object-cover rounded-none md:rounded-2xl transition-transform duration-250 ease-out origin-center";
       } else if (index === 1) {
-        mainImg.className = "w-full h-full object-cover object-top rounded-2xl transition-transform duration-250 ease-out origin-center";
+        mainImg.className = "w-full h-full object-cover object-top rounded-none md:rounded-2xl transition-transform duration-250 ease-out origin-center";
       } else if (index === 2) {
-        mainImg.className = "w-full h-full object-cover object-bottom rounded-2xl transition-transform duration-250 ease-out origin-center";
+        mainImg.className = "w-full h-full object-cover object-bottom rounded-none md:rounded-2xl transition-transform duration-250 ease-out origin-center";
       }
+
+      // Update dots indicator on mobile view
+      changeMobileSlideDot(index);
 
       const thumbnails = document.querySelectorAll('.thumbnail-btn');
       thumbnails.forEach((btn, idx) => {
         if (idx === index) {
-          btn.className = "thumbnail-btn aspect-square rounded-2xl border-2 border-[#183fad] dark:border-[#F1BF0A] overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all";
+          btn.className = "thumbnail-btn flex-shrink-0 size-16 md:size-20 rounded-xl border-2 border-[#183fad] dark:border-[#F1BF0A] overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all";
         } else {
-          btn.className = "thumbnail-btn aspect-square rounded-2xl border border-black/10 dark:border-white/10 opacity-70 hover:opacity-100 overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all";
+          btn.className = "thumbnail-btn flex-shrink-0 size-16 md:size-20 rounded-xl border border-black/10 dark:border-white/10 opacity-70 hover:opacity-100 overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all";
         }
       });
     }
@@ -668,6 +783,16 @@
       // Open cart drawer immediately to provide visual feedback
       openDrawer('Shopping Cart');
       renderCartDrawer();
+    }
+
+    // Buy Now button action (direct checkout)
+    function triggerBuyNow() {
+      // Add customized item to cart
+      triggerAddToCart();
+      // Redirect to checkout/cart page after slight delay
+      setTimeout(() => {
+        window.location.href = 'cart.html';
+      }, 600);
     }
 
     function triggerAddToWishlist() {
@@ -776,3 +901,4 @@
   </script>
 </body>
 </html>
+
