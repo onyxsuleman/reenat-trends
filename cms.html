@@ -784,8 +784,11 @@
 
       const items = window.products || products || [];
       const index = formIndex.value;
+      const existingProduct = (index !== '') ? items[Number(index)] : {};
       
       const newSaree = {
+        rating: 4.5,
+        ...existingProduct,
         name,
         price,
         originalPrice,
