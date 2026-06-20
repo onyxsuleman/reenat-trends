@@ -513,103 +513,68 @@
                 <span class="font-semibold text-slate-700 dark:text-white">Georgette / Silk</span>
               </div>
               <div>
-                <span class="text-slate-400 block mb-0.5">Transparency</span>
-                <span class="font-semibold text-slate-700 dark:text-white">No</span>
+            <h2 class="text-sm font-bold text-slate-850 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-slate-800">Product Information</h2>
+            
+            <div class="space-y-3 text-xs">
+              <table class="w-full text-left border-collapse">
+                <tbody>
+                  <tr class="border-b border-slate-100 dark:border-slate-800/65">
+                    <td class="py-2 text-slate-400 w-1/3">Brand</td>
+                    <td class="py-2 font-semibold text-slate-700 dark:text-white">REENAT TRENDS</td>
+                  </tr>
+                  <tr class="border-b border-slate-100 dark:border-slate-800/65">
+                    <td class="py-2 text-slate-400">Material</td>
+                    <td class="py-2 font-semibold text-slate-700 dark:text-white">${product.craft || 'Premium Weave'}</td>
+                  </tr>
+                  <tr class="border-b border-slate-100 dark:border-slate-800/65">
+                    <td class="py-2 text-slate-400">Size</td>
+                    <td class="py-2 font-semibold text-slate-700 dark:text-white">Free Size</td>
+                  </tr>
+                  
+                  <tr class="extended-info hidden border-b border-slate-100 dark:border-slate-800/65">
+                    <td class="py-2 text-slate-400">Width</td>
+                    <td class="py-2 font-semibold text-slate-700 dark:text-white">44 Inches</td>
+                  </tr>
+                  <tr class="extended-info hidden border-b border-slate-100 dark:border-slate-800/65">
+                    <td class="py-2 text-slate-400">Saree Length</td>
+                    <td class="py-2 font-semibold text-slate-700 dark:text-white">5.5 Meters</td>
+                  </tr>
+                  <tr class="extended-info hidden border-b border-slate-100 dark:border-slate-800/65">
+                    <td class="py-2 text-slate-400">Blouse Length</td>
+                    <td class="py-2 font-semibold text-slate-700 dark:text-white">0.8 Meters</td>
+                  </tr>
+                  <tr class="extended-info hidden border-b border-slate-100 dark:border-slate-800/65">
+                    <td class="py-2 text-slate-400">Care Instructions</td>
+                    <td class="py-2 font-semibold text-slate-700 dark:text-white">Dry Clean Only</td>
+                  </tr>
+                  <tr class="extended-info hidden border-b border-slate-100 dark:border-slate-800/65">
+                    <td class="py-2 text-slate-400">Country of Origin</td>
+                    <td class="py-2 font-semibold text-slate-700 dark:text-white">India</td>
+                  </tr>
+                  <tr class="extended-info hidden border-b border-slate-100 dark:border-slate-800/65">
+                    <td class="py-2 text-slate-400">Saree Weight</td>
+                    <td class="py-2 font-semibold text-slate-700 dark:text-white">620 - 680 Grams</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="extended-info hidden pt-3 border-t border-slate-100 dark:border-slate-800/60 space-y-2 text-left">
+                <h4 class="font-bold text-slate-800 dark:text-white text-xs uppercase tracking-wider">Product Description</h4>
+                <p class="text-slate-600 dark:text-slate-350 leading-relaxed text-[11px]">${product.desc || ''}</p>
+                <p class="text-slate-600 dark:text-slate-350 leading-relaxed text-[11px]">Introducing our exquisite saree, a true masterpiece that will make you feel like a queen! This traditional Indian attire is crafted with love and attention to detail, ensuring you look absolutely stunning on any occasion.</p>
+                <p class="text-slate-600 dark:text-slate-350 leading-relaxed text-[11px]">Made from the finest quality fabric, our saree drapes elegantly around your body, accentuating your curves and enhancing your natural beauty. The vibrant colors and intricate patterns add a touch of charm and grace, making you the center of attention wherever you go.</p>
               </div>
-              <div>
-                <span class="text-slate-400 block mb-0.5">Net Quantity (N)</span>
-                <span class="font-semibold text-slate-700 dark:text-white">Single</span>
-              </div>
+              
+              <button onclick="toggleProductInfo()" id="info-toggle-btn" class="w-full text-center py-2 text-[#183fad] dark:text-[#cfe3ff] hover:underline font-bold text-xs cursor-pointer block select-none">
+                More Details >
+              </button>
             </div>
           </div>
 
-          <!-- Configuration and Saree Customization Options -->
-          <div class="mobile-card md:bg-white/50 md:dark:bg-[#0c1e44]/25 md:border md:border-black/5 md:dark:border-white/10 md:rounded-3xl md:p-5 space-y-5 md:glass">
-            <h3 class="font-bold text-sm text-slate-800 dark:text-white uppercase tracking-wider">Configure Options</h3>
-            
-            <!-- Option 1: Blouse Stitching Customization -->
-            <div class="space-y-2.5">
-              <span class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">1. Blouse Customization</span>
-              <div class="grid grid-cols-3 gap-2.5">
-                <label class="cursor-pointer border border-slate-200 dark:border-slate-850 dark:bg-black/20 rounded-xl p-2.5 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
-                  <input type="radio" name="blouse-option" value="Unstitched" checked onchange="handleOptionsChange()" class="sr-only" />
-                  <span class="text-[11px] font-bold text-slate-800 dark:text-white">Unstitched</span>
-                  <span class="text-[9px] text-slate-400 mt-1">Included</span>
-                </label>
-                <label class="cursor-pointer border border-slate-200 dark:border-slate-850 dark:bg-black/20 rounded-xl p-2.5 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
-                  <input type="radio" name="blouse-option" value="Standard" onchange="handleOptionsChange()" class="sr-only" />
-                  <span class="text-[11px] font-bold text-slate-800 dark:text-white">Standard</span>
-                  <span class="text-[9px] text-[#d9a05b] font-semibold mt-1">+₹250</span>
-                </label>
-                <label class="cursor-pointer border border-slate-200 dark:border-slate-850 dark:bg-black/20 rounded-xl p-2.5 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
-                  <input type="radio" name="blouse-option" value="Custom" onchange="handleOptionsChange()" class="sr-only" />
-                  <span class="text-[11px] font-bold text-slate-800 dark:text-white">Custom</span>
-                  <span class="text-[9px] text-[#d9a05b] font-semibold mt-1">+₹450</span>
-                </label>
-              </div>
-
-              <!-- Standard Stitching Panel (revealed dynamically) -->
-              <div id="standard-stitch-panel" class="hidden pt-3 border-t border-black/5 dark:border-white/5 space-y-2">
-                <div class="flex items-center justify-between">
-                  <label for="standard-size-select" class="text-xs font-semibold text-slate-700 dark:text-slate-300">Select Standard Blouse Size</label>
-                  <a href="#size-guide" onclick="alert('Standard Blouse Sizes correspond to Bust measurements (in inches):\\nSize 34: Bust 34\\\", Underbust 28\\\"\\nSize 36: Bust 36\\\", Underbust 30\\\"\\nSize 38: Bust 38\\\", Underbust 32\\\"\\nSize 40: Bust 40\\\", Underbust 34\\\"\\nSize 42: Bust 42\\\", Underbust 36\\\"')" class="text-[10px] text-[#183fad] dark:text-[#cfe3ff] underline hover:text-[#F1BF0A]">Size Guide</a>
-                </div>
-                <select id="standard-size-select" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-white focus:outline-none">
-                  <option value="34">Size 34 (Bust 34")</option>
-                  <option value="36">Size 36 (Bust 36")</option>
-                  <option value="38" selected>Size 38 (Bust 38")</option>
-                  <option value="40">Size 40 (Bust 40")</option>
-                  <option value="42">Size 42 (Bust 42")</option>
-                </select>
-              </div>
-
-              <!-- Custom Sizing Panel (revealed dynamically) -->
-              <div id="custom-stitch-panel" class="hidden pt-3 border-t border-black/5 dark:border-white/5 space-y-2.5">
-                <span class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400">Provide body measurements in inches:</span>
-                <div class="grid grid-cols-2 gap-2">
-                  <div>
-                    <label class="block text-[10px] text-slate-400 mb-0.5">Chest</label>
-                    <input type="text" id="measure-chest" placeholder="36" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 dark:text-white focus:outline-none" />
-                  </div>
-                  <div>
-                    <label class="block text-[10px] text-slate-400 mb-0.5">Waist</label>
-                    <input type="text" id="measure-waist" placeholder="30" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 dark:text-white focus:outline-none" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Option 2: Tassels Additions -->
-            <div class="space-y-2.5 pt-3 border-t border-black/5 dark:border-white/5">
-              <span class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">2. Tassel Addition</span>
-              <div class="grid grid-cols-2 gap-2.5">
-                <label class="cursor-pointer border border-slate-200 dark:border-slate-850 dark:bg-black/20 rounded-xl p-2.5 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
-                  <input type="radio" name="tassels-option" value="None" checked onchange="handleOptionsChange()" class="sr-only" />
-                  <span class="text-xs font-bold text-slate-800 dark:text-white">No Tassels</span>
-                  <span class="text-[10px] text-slate-400 mt-1">Included</span>
-                </label>
-                <label class="cursor-pointer border border-slate-200 dark:border-slate-850 dark:bg-black/20 rounded-xl p-2.5 flex flex-col items-center justify-between text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus-within:ring-2 focus-within:ring-[#183fad]">
-                  <input type="radio" name="tassels-option" value="Silk Tassels" onchange="handleOptionsChange()" class="sr-only" />
-                  <span class="text-xs font-bold text-slate-800 dark:text-white">Silk Tassels</span>
-                  <span class="text-[10px] text-[#d9a05b] font-semibold mt-1">+₹100</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Configured Price Card -->
-            <div class="bg-slate-50 dark:bg-black/25 rounded-2xl p-4 border border-black/5 dark:border-white/5 flex items-center justify-between">
-              <div>
-                <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Total Price</span>
-                <span class="text-[10px] text-slate-500 dark:text-slate-350" id="config-sub-label">Base Saree + Customizations</span>
-              </div>
-              <span class="text-xl font-bold text-slate-900 dark:text-white" id="configured-total-price">₹${product.price.toLocaleString('en-IN')}</span>
-            </div>
-
-            <!-- Desktop Action Buttons (Hidden on Mobile) -->
-            <div class="hidden md:flex gap-3">
-              <button onclick="triggerAddToCart()" class="flex-1 bg-[#183fad] hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full border border-[#183fad] transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-md cursor-pointer text-center text-sm">Add to Cart</button>
-              <button onclick="triggerAddToWishlist()" class="bg-white dark:bg-slate-800 hover:bg-rose-500 hover:text-white dark:hover:bg-rose-500 text-rose-500 dark:text-slate-200 font-semibold py-3 px-6 rounded-full border border-slate-200 dark:border-slate-700 transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-sm cursor-pointer text-center text-sm">Wishlist</button>
-            </div>
+          <!-- Desktop Action Buttons (Hidden on Mobile) -->
+          <div class="hidden md:flex gap-3">
+            <button onclick="triggerAddToCart()" class="flex-1 bg-[#183fad] hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full border border-[#183fad] transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-md cursor-pointer text-center text-sm">Add to Cart</button>
+            <button onclick="triggerAddToWishlist()" class="bg-white dark:bg-slate-800 hover:bg-rose-500 hover:text-white dark:hover:bg-rose-500 text-rose-500 dark:text-slate-200 font-semibold py-3 px-6 rounded-full border border-slate-200 dark:border-slate-700 transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-sm cursor-pointer text-center text-sm">Wishlist</button>
           </div>
         </div>
 
@@ -649,8 +614,28 @@
           zoomImage.style.transformOrigin = 'center';
         });
       }
+    }
 
-      handleOptionsChange(); // Sync initial options
+    // Toggle Product Info Specification and Description View
+    window.toggleProductInfo = function() {
+      const items = document.querySelectorAll('.extended-info');
+      const btn = document.getElementById('info-toggle-btn');
+      if (items.length === 0) return;
+      
+      const isHidden = items[0].classList.contains('hidden');
+      items.forEach(el => {
+        if (isHidden) {
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+      
+      if (isHidden) {
+        btn.innerHTML = 'Read Less <';
+      } else {
+        btn.innerHTML = 'More Details >';
+      }
     }
 
     // Update active slide dot indicator
@@ -694,76 +679,9 @@
       });
     }
 
-    // Dynamic Saree customization calculation
-    window.handleOptionsChange = function() {
-      const selectedBlouse = document.querySelector('input[name="blouse-option"]:checked')?.value || 'Unstitched';
-      const selectedTassels = document.querySelector('input[name="tassels-option"]:checked')?.value || 'None';
-      
-      const standardPanel = document.getElementById('standard-stitch-panel');
-      const customPanel = document.getElementById('custom-stitch-panel');
-      
-      let blouseCost = 0;
-      if (selectedBlouse === 'Standard') {
-        blouseCost = 250;
-        if (standardPanel) standardPanel.classList.remove('hidden');
-        if (customPanel) customPanel.classList.add('hidden');
-      } else if (selectedBlouse === 'Custom') {
-        blouseCost = 450;
-        if (standardPanel) standardPanel.classList.add('hidden');
-        if (customPanel) customPanel.classList.remove('hidden');
-      } else {
-        blouseCost = 0;
-        if (standardPanel) standardPanel.classList.add('hidden');
-        if (customPanel) customPanel.classList.add('hidden');
-      }
-
-      let tasselCost = 0;
-      if (selectedTassels === 'Silk Tassels') {
-        tasselCost = 100;
-      }
-
-      const finalPrice = product.price + blouseCost + tasselCost;
-      const totalEl = document.getElementById('configured-total-price');
-      if (totalEl) totalEl.textContent = `₹${finalPrice.toLocaleString('en-IN')}`;
-
-      const detailEl = document.getElementById('config-sub-label');
-      if (detailEl) {
-        let text = 'Base Saree';
-        if (blouseCost > 0) text += ` + Blouse stitching (+₹${blouseCost.toLocaleString('en-IN')})`;
-        if (tasselCost > 0) text += ` + Tassels (+₹${tasselCost.toLocaleString('en-IN')})`;
-        detailEl.textContent = text;
-      }
-    }
-
     // Add customized item to cart
     function triggerAddToCart() {
-      const selectedBlouse = document.querySelector('input[name="blouse-option"]:checked')?.value || 'Unstitched';
-      const selectedTassels = document.querySelector('input[name="tassels-option"]:checked')?.value || 'None';
-      
-      let blouseCost = 0;
-      if (selectedBlouse === 'Standard') blouseCost = 250;
-      else if (selectedBlouse === 'Custom') blouseCost = 450;
-      
-      let tasselCost = 0;
-      if (selectedTassels === 'Silk Tassels') tasselCost = 100;
-      
-      const customPrice = product.price + blouseCost + tasselCost;
-      
-      let blouseDetails = '';
-      if (selectedBlouse === 'Standard') {
-        const size = document.getElementById('standard-size-select')?.value || '38';
-        blouseDetails = `Stitched (Size ${size})`;
-      } else if (selectedBlouse === 'Custom') {
-        const chest = document.getElementById('measure-chest')?.value || '36';
-        blouseDetails = `Custom Stitched (Chest ${chest}")`;
-      } else {
-        blouseDetails = 'Unstitched Fabric';
-      }
-      
-      const tasselDetails = selectedTassels === 'Silk Tassels' ? 'With Silk Tassels' : 'No Tassels';
-      
-      const cartItemName = `${product.name} Saree - ${blouseDetails}, ${tasselDetails}`;
-      
+      const cartItemName = `${product.name} Saree`;
       const cart = getCart();
       const existing = cart.find(item => item.name === cartItemName);
       if (existing) {
@@ -771,14 +689,14 @@
       } else {
         cart.push({
           name: cartItemName,
-          price: customPrice,
+          price: product.price,
           image: product.image,
           qty: 1
         });
       }
       saveCart(cart);
       updateCounts();
-      showToast(`Customized "${product.name}" added to Cart!`, 'success');
+      showToast(`"${product.name}" added to Cart!`, 'success');
       
       // Open cart drawer immediately to provide visual feedback
       openDrawer('Shopping Cart');
@@ -787,9 +705,7 @@
 
     // Buy Now button action (direct checkout)
     function triggerBuyNow() {
-      // Add customized item to cart
       triggerAddToCart();
-      // Redirect to checkout/cart page after slight delay
       setTimeout(() => {
         window.location.href = 'cart.html';
       }, 600);
@@ -800,22 +716,7 @@
     }
 
     window.shareActiveProductOnWhatsApp = function() {
-      const selectedBlouse = document.querySelector('input[name="blouse-option"]:checked')?.value || 'Unstitched';
-      const selectedTassels = document.querySelector('input[name="tassels-option"]:checked')?.value || 'None';
-      
-      let blouseDetails = '';
-      if (selectedBlouse === 'Standard') {
-        const size = document.getElementById('standard-size-select')?.value || '38';
-        blouseDetails = `Stitched (Size ${size})`;
-      } else if (selectedBlouse === 'Custom') {
-        const chest = document.getElementById('measure-chest')?.value || '36';
-        blouseDetails = `Custom Stitched (Chest ${chest}")`;
-      } else {
-        blouseDetails = 'Unstitched Fabric';
-      }
-      
-      const tasselDetails = selectedTassels === 'Silk Tassels' ? 'With Silk Tassels' : 'No Tassels';
-      const shareText = `Hey! What do you think of this gorgeous "${product.name}" saree on Reenat Trends? Woven details: ${product.craft} from ${product.origin}. Configured as: ${blouseDetails}, ${tasselDetails}. See details: ${window.location.origin}/product.html?id=${productId}`;
+      const shareText = `Hey! What do you think of this gorgeous "${product.name}" saree on Reenat Trends? Woven details: ${product.craft} from ${product.origin}. See details: ${window.location.origin}/product.html?id=${productId}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
     }
 
