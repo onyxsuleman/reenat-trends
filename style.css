@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Anton&family=Inter:opsz,wght@14..32,100..900&display=swap");
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 html {
 	min-height: 100%;
 }
@@ -31,6 +34,7 @@ html:not(.dark) .text-slate-400 {
 html:not(.dark) .text-slate-700 {
 	color: #0f172a !important; /* Slate 900 */
 }
+html:not(.dark) .text-slate-850,
 html:not(.dark) .text-slate-800 {
 	color: #090d16 !important; /* Extra dark slate */
 }
@@ -42,6 +46,38 @@ html:not(.dark) a.text-slate-700:hover {
 }
 html:not(.dark) ::placeholder {
 	color: #64748b !important; /* Slate 500 */
+}
+
+/* Explicit inputs and controls readability override in Day Mode */
+html:not(.dark) input,
+html:not(.dark) select,
+html:not(.dark) textarea {
+	background-color: #ffffff !important;
+	color: #0f172a !important;
+	border-color: #cbd5e1 !important;
+}
+html:not(.dark) label {
+	color: #334155 !important;
+}
+html:not(.dark) .bg-white {
+	background-color: #ffffff !important;
+}
+html:not(.dark) .bg-slate-50 {
+	background-color: #f8fafc !important;
+}
+html:not(.dark) .text-white {
+	color: #0f172a !important;
+}
+html:not(.dark) .text-slate-300,
+html:not(.dark) .text-slate-400 {
+	color: #475569 !important;
+}
+/* Except badge or header text colors inside dark overlays */
+html:not(.dark) .bg-black\/60 span,
+html:not(.dark) .bg-black\/60 button,
+html:not(.dark) .bg-black\/60 .text-white,
+html:not(.dark) .bg-[#3a3fbe] {
+	color: #ffffff !important;
 }
 body::before {
 	content: "";
