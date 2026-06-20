@@ -409,11 +409,11 @@
               <button onclick="changeActiveImage('${product.image}', 0)" class="thumbnail-btn flex-shrink-0 size-16 md:size-20 rounded-xl border-2 border-[#183fad] dark:border-[#F1BF0A] overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all">
                 <img src="${product.image}" class="w-full h-full object-cover" alt="Full Drape view" />
               </button>
-              <button onclick="changeActiveImage('${product.image}', 1)" class="thumbnail-btn flex-shrink-0 size-16 md:size-20 rounded-xl border border-black/10 dark:border-white/10 opacity-70 hover:opacity-100 overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all">
-                <img src="${product.image}" class="w-full h-full object-cover object-top" alt="Pallu Detail view" />
+              <button onclick="changeActiveImage('${product.image2 || product.image}', 1)" class="thumbnail-btn flex-shrink-0 size-16 md:size-20 rounded-xl border border-black/10 dark:border-white/10 opacity-70 hover:opacity-100 overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all">
+                <img src="${product.image2 || product.image}" class="w-full h-full object-cover" alt="Detail view 2" />
               </button>
-              <button onclick="changeActiveImage('${product.image}', 2)" class="thumbnail-btn flex-shrink-0 size-16 md:size-20 rounded-xl border border-black/10 dark:border-white/10 opacity-70 hover:opacity-100 overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all">
-                <img src="${product.image}" class="w-full h-full object-cover object-bottom" alt="Border Detail view" />
+              <button onclick="changeActiveImage('${product.image3 || product.image}', 2)" class="thumbnail-btn flex-shrink-0 size-16 md:size-20 rounded-xl border border-black/10 dark:border-white/10 opacity-70 hover:opacity-100 overflow-hidden bg-white/40 dark:bg-black/10 focus:outline-none cursor-pointer transition-all">
+                <img src="${product.image3 || product.image}" class="w-full h-full object-cover" alt="Detail view 3" />
               </button>
             </div>
           </div>
@@ -671,14 +671,8 @@
     window.changeActiveImage = function(imgSrc, index) {
       const mainImg = document.getElementById('main-product-image');
       if (mainImg) mainImg.src = imgSrc;
-
-      // Adjust image focal positions based on index to simulate cropped detail angles
-      if (index === 0) {
+      if (mainImg) {
         mainImg.className = "w-full h-full object-cover rounded-none md:rounded-2xl transition-transform duration-250 ease-out origin-center";
-      } else if (index === 1) {
-        mainImg.className = "w-full h-full object-cover object-top rounded-none md:rounded-2xl transition-transform duration-250 ease-out origin-center";
-      } else if (index === 2) {
-        mainImg.className = "w-full h-full object-cover object-bottom rounded-none md:rounded-2xl transition-transform duration-250 ease-out origin-center";
       }
 
       // Update dots indicator on mobile view

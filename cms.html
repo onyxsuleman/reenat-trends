@@ -702,8 +702,8 @@
         document.getElementById('form-header-style-id').textContent = 'Style ID: ' + (p.styleId || `Saagar Magenta Hathi HM ${index + 1}`);
         document.getElementById('form-header-thumb').src = p.image;
         document.getElementById('form-img-preview').src = p.image;
-        document.getElementById('form-img-preview-2').src = p.image;
-        document.getElementById('form-img-preview-3').src = p.image;
+        document.getElementById('form-img-preview-2').src = p.image2 || p.image;
+        document.getElementById('form-img-preview-3').src = p.image3 || p.image;
         document.getElementById('form-image-custom').value = p.image;
       } else {
         // Add Mode
@@ -764,6 +764,8 @@
       const origin = document.getElementById('form-origin').value.trim();
       const desc = document.getElementById('form-desc').value.trim();
       const image = document.getElementById('form-image-custom').value.trim();
+      const image2 = document.getElementById('form-img-preview-2').src;
+      const image3 = document.getElementById('form-img-preview-3').src;
       
       const gst = document.getElementById('form-gst').value;
       const hsn = document.getElementById('form-hsn').value;
@@ -793,6 +795,8 @@
         price,
         originalPrice,
         image,
+        image2,
+        image3,
         type,
         origin,
         craft: `${fabric} with ${border} Border`,
