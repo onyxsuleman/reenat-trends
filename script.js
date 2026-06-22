@@ -13,7 +13,7 @@ const defaultProducts = [
 let products = JSON.parse(localStorage.getItem('products')) || defaultProducts;
 window.products = products;
 
-const supabaseUrl = 'https://utqweirxaimfolchyskv.supabase.co';
+const supabaseUrl = 'https://utqweirxeimfolchyskv.supabase.co';
 const supabaseKey = 'sb_publishable_6XCmyw3Zyi_xuno3lC0_Dw_yvHZgwjM';
 const supabaseClient = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
 
