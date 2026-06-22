@@ -1,14 +1,4 @@
-const defaultProducts = [
-  { name: "Kanjivaram Silk", price: 3200, originalPrice: 4800, image: "saree_kanjivaram.png", type: "Silk", origin: "Tamil Nadu", craft: "Pure Mulberry Silk with Zari Borders", desc: "A classic Kanjivaram silk saree woven by hand. Characterized by wide contrast borders, rich gold brocade patterns, and vibrant wedding-ready hues.", color: "Red", rating: 4.8 },
-  { name: "Banarasi Weave", price: 2800, originalPrice: 4200, image: "saree_banarasi.png", type: "Brocade", origin: "Uttar Pradesh", craft: "Handwoven Brocade Silk", desc: "Finely woven Banarasi silk featuring dense floral creepers, silver brocade work, and visual weight. Ideal for formal ethnic celebrations.", color: "Pink", rating: 4.6 },
-  { name: "Chanderi Charm", price: 2000, originalPrice: 3000, image: "saree_chanderi.png", type: "Lightweight", origin: "Madhya Pradesh", craft: "Silk Cotton Blend", desc: "Lightweight and sheer, this Chanderi saree boasts intricate silver motifs, delicate borders, and a sophisticated finish.", color: "Cream", rating: 4.3 },
-  { name: "Tussar Elegance", price: 1800, originalPrice: 2600, image: "saree_kanjivaram.png", type: "Organic", origin: "Jharkhand", craft: "Handspun Tussar Silk", desc: "Crafted from wild Tussar silk fibers, showcasing a natural copper-gold sheen and textured, organic hand-feel.", color: "Gold", rating: 4.4 },
-  { name: "Paithani Classic", price: 3500, originalPrice: 5000, image: "saree_banarasi.png", type: "Silk", origin: "Maharashtra", craft: "Oblique Weft Silk", desc: "A royal Paithani silk saree featuring a signature square-designed border and a pallu decorated with detailed peacock shapes.", color: "Blue", rating: 4.7 },
-  { name: "Muga Marvel", price: 4000, originalPrice: 5800, image: "saree_chanderi.png", type: "Rare", origin: "Assam", craft: "Rare Golden Muga Silk", desc: "Woven with naturally golden Assamese Muga silk thread, valued for its luster, longevity, and heritage value.", color: "Gold", rating: 4.9 },
-  { name: "Kota Doria", price: 1500, originalPrice: 2200, image: "saree_chanderi.png", type: "Lightweight", origin: "Rajasthan", craft: "Checked Cotton Silk", desc: "An airy, checked light saree from Kota, Rajasthan. Delicately handwoven for hot climates, styled with gold thread borders.", color: "Green", rating: 4.1 },
-  { name: "Gadwal Grace", price: 3300, originalPrice: 4800, image: "saree_kanjivaram.png", type: "Brocade", origin: "Telangana", craft: "Cotton Body with Silk Border", desc: "An architectural wonder combining a light, breathable cotton body with solid, heavy silk borders and pallu segments.", color: "Yellow", rating: 4.5 },
-  { name: "Ikat Fusion", price: 2100, originalPrice: 3000, image: "saree_banarasi.png", type: "Organic", origin: "Odisha / Telangana", craft: "Tie-and-Dye Ikat Weave", desc: "Features geometrically precise warp-and-weft tie-dye threads, handwoven into sharp zigzags and classical motifs.", color: "Black", rating: 4.2 }
-];
+const defaultProducts = [];
 
 let products = JSON.parse(localStorage.getItem('products')) || defaultProducts;
 window.products = products;
