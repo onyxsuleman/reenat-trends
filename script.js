@@ -22,9 +22,18 @@ async function loadProducts() {
     try {
       const { data, error } = await supabaseClient.from('products').select('*').order('id', { ascending: true });
       if (!error && data && data.length > 0) {
-        window.products = data;
-        localStorage.setItem('products', JSON.stringify(data));
-        return data;
+        const mappedData = data.map(item => ({
+          ...item,
+          originalPrice: item.originalprice,
+          styleId: item.styleid,
+          blouseLen: item.blouselen,
+          sareeLen: item.sareelen,
+          blouseType: item.blousetype,
+          blouseColor: item.blousecolor
+        }));
+        window.products = mappedData;
+        localStorage.setItem('products', JSON.stringify(mappedData));
+        return mappedData;
       } else if (error) {
         console.warn("Supabase fetch warning:", error.message);
       }
@@ -527,9 +536,9 @@ window.renderCatalog = function(filteredList = products) {
   productList.innerHTML = filteredList.map((product) => {
     // Find original index
     const idx = products.findIndex(p => p.name === product.name);
-    const formattedPrice = Math.round(product.price).toLocaleString('en-IN');
-    const formattedOriginal = Math.round(product.originalPrice).toLocaleString('en-IN');
-    const discountPercent = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+    const formattedPrice = Math.round(product.price || 0).toLocaleString('en-IN');
+    const formattedOriginal = Math.round(product.originalPrice || 0).toLocaleString('en-IN');
+    const discountPercent = Math.round((((product.originalPrice || 0) - (product.price || 0)) / (product.originalPrice || 1)) * 100);
     const rating = product.rating || 4.5;
     return `
       <li class="group product-card col-span-1 flex flex-col rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 backdrop-blur-md">

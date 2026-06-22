@@ -455,8 +455,8 @@
 
             <div class="pt-2 border-t border-slate-100 dark:border-slate-800/60 mt-2">
               <div class="flex items-baseline gap-2">
-                <span class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">₹${product.price.toLocaleString('en-IN')}</span>
-                <span class="text-sm line-through text-slate-400">₹${product.originalPrice.toLocaleString('en-IN')}</span>
+                <span class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">₹${(product.price || 0).toLocaleString('en-IN')}</span>
+                <span class="text-sm line-through text-slate-400">₹${(product.originalPrice || 0).toLocaleString('en-IN')}</span>
                 <span class="text-xs bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-[#25D366] px-2 py-0.5 rounded-full font-bold ml-1">${discountPercent}% OFF</span>
               </div>
             </div>
@@ -742,9 +742,9 @@
         .slice(0, 3);
 
       relatedRoot.innerHTML = related.map(item => {
-        const formattedPrice = Math.round(item.price).toLocaleString('en-IN');
-        const formattedOriginal = Math.round(item.originalPrice).toLocaleString('en-IN');
-        const discountPercent = Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100);
+        const formattedPrice = Math.round(item.price || 0).toLocaleString('en-IN');
+        const formattedOriginal = Math.round(item.originalPrice || 0).toLocaleString('en-IN');
+        const discountPercent = Math.round((((item.originalPrice || 0) - (item.price || 0)) / (item.originalPrice || 1)) * 100);
         const rating = item.rating || 4.5;
         return `
           <li class="group product-card col-span-1 flex flex-col rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 backdrop-blur-md">

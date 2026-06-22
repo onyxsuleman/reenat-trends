@@ -614,7 +614,7 @@
           <td class="p-4 font-bold text-slate-800 dark:text-white">${item.name}</td>
           <td class="p-4 text-slate-600 dark:text-slate-300 font-medium">${item.type}</td>
           <td class="p-4 text-slate-500 dark:text-slate-400">${item.origin}</td>
-          <td class="p-4 text-right font-bold text-slate-800 dark:text-white">₹${item.price.toLocaleString('en-IN')} <span class="text-[10px] line-through text-slate-400 font-normal ml-1">₹${item.originalPrice.toLocaleString('en-IN')}</span></td>
+          <td class="p-4 text-right font-bold text-slate-800 dark:text-white">₹${(item.price || 0).toLocaleString('en-IN')} <span class="text-[10px] line-through text-slate-400 font-normal ml-1">₹${(item.originalPrice || 0).toLocaleString('en-IN')}</span></td>
           <td class="p-4">
             <div class="flex items-center justify-center gap-2">
               <button onclick="openFormDrawer(${idx})" class="px-2.5 py-1 bg-[#F1BF0A] hover:bg-yellow-500 text-slate-900 font-bold rounded-lg cursor-pointer transition-colors">Edit</button>
@@ -810,12 +810,29 @@
 
       if (window.supabaseClient) {
         try {
+          // Prepare DB row by mapping camelCase keys to lowercase keys expected by PostgreSQL
+          const dbRow = {
+            ...newSaree,
+            originalprice: newSaree.originalPrice,
+            styleid: newSaree.styleId,
+            blouselen: newSaree.blouseLen,
+            sareelen: newSaree.sareeLen,
+            blousetype: newSaree.blouseType,
+            blousecolor: newSaree.blouseColor
+          };
+          delete dbRow.originalPrice;
+          delete dbRow.styleId;
+          delete dbRow.blouseLen;
+          delete dbRow.sareeLen;
+          delete dbRow.blouseType;
+          delete dbRow.blouseColor;
+
           if (index !== '') {
-            const { error } = await window.supabaseClient.from('products').update(newSaree).eq('id', existingProduct.id);
+            const { error } = await window.supabaseClient.from('products').update(dbRow).eq('id', existingProduct.id);
             if (error) throw error;
             showToast(`"${name}" updated in database successfully!`, 'success');
           } else {
-            const insertData = { ...newSaree };
+            const insertData = { ...dbRow };
             delete insertData.id; // Let database auto-assign ID if possible
             const { error } = await window.supabaseClient.from('products').insert(insertData);
             if (error) throw error;
