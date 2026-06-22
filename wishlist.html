@@ -145,6 +145,7 @@
 
   <div id="toast-container"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./script.js"></script>
   <script>
     function renderWishlist() {
@@ -248,7 +249,13 @@
       showToast(`"${item.name}" removed from Wishlist.`, 'info');
     };
 
-    renderWishlist();
+    if (typeof loadProducts === 'function') {
+      loadProducts().then(() => {
+        renderWishlist();
+      });
+    } else {
+      renderWishlist();
+    }
   </script>
 </body>
 </html>

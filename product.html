@@ -270,13 +270,14 @@
   </footer>
 
   <div id="toast-container"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./script.js"></script>
   
   <script>
     // Read product ID from query parameter
     const params = new URLSearchParams(window.location.search);
     const productId = params.has('id') ? Number(params.get('id')) : 0;
-    const product = products[productId] || products[0];
+    let product;
 
     function renderDetails() {
       const root = document.getElementById('product-container');
@@ -806,8 +807,17 @@
     }
 
     // Initial render call
-    renderDetails();
-    renderRelatedProducts();
+    if (typeof loadProducts === 'function') {
+      loadProducts().then((loadedProducts) => {
+        product = loadedProducts[productId] || loadedProducts[0];
+        renderDetails();
+        renderRelatedProducts();
+      });
+    } else {
+      product = products[productId] || products[0];
+      renderDetails();
+      renderRelatedProducts();
+    }
   </script>
 </body>
 </html>

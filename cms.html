@@ -552,6 +552,7 @@
 
   <div id="toast-container"></div>
   
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./script.js"></script>
   <script>
     // Console Access Lock handler
@@ -742,7 +743,7 @@
     }
 
     // Submit handler
-    window.handleFormSubmit = function(e) {
+    window.handleFormSubmit = async function(e) {
       e.preventDefault();
       
       const name = document.getElementById('form-name').value.trim();
@@ -807,19 +808,45 @@
         brand
       };
 
-      if (index !== '') {
-        // Update
-        items[Number(index)] = newSaree;
-        showToast(`"${name}" updated successfully!`, 'success');
+      if (window.supabase) {
+        try {
+          if (index !== '') {
+            const { error } = await window.supabase.from('products').update(newSaree).eq('id', existingProduct.id);
+            if (error) throw error;
+            showToast(`"${name}" updated in database successfully!`, 'success');
+          } else {
+            const insertData = { ...newSaree };
+            delete insertData.id; // Let database auto-assign ID if possible
+            const { error } = await window.supabase.from('products').insert(insertData);
+            if (error) throw error;
+            showToast(`"${name}" listed in store catalog!`, 'success');
+          }
+        } catch (dbError) {
+          console.error("Database save failed, falling back to local storage:", dbError);
+          showToast("Cloud save failed. Saved locally.", "info");
+          if (index !== '') {
+            items[Number(index)] = newSaree;
+          } else {
+            items.push(newSaree);
+          }
+          localStorage.setItem('products', JSON.stringify(items));
+          window.products = items;
+        }
       } else {
-        // Create
-        items.push(newSaree);
-        showToast(`"${name}" listed in store catalog!`, 'success');
+        if (index !== '') {
+          items[Number(index)] = newSaree;
+          showToast(`"${name}" updated successfully (local)!`, 'success');
+        } else {
+          items.push(newSaree);
+          showToast(`"${name}" listed in store catalog (local)!`, 'success');
+        }
+        localStorage.setItem('products', JSON.stringify(items));
+        window.products = items;
       }
 
-      localStorage.setItem('products', JSON.stringify(items));
-      window.products = items;
-      
+      if (window.supabase) {
+        await loadProducts();
+      }
       renderInventory();
       closeFormDrawer();
       updateCounts(); // sync page stats
@@ -827,17 +854,35 @@
     }
 
     // Delete saree
-    window.deleteSaree = function(index) {
+    window.deleteSaree = async function(index) {
       const items = window.products || products || [];
-      const name = items[index]?.name || 'Item';
+      const productToDelete = items[index];
+      const name = productToDelete?.name || 'Item';
       
       if (confirm(`Are you sure you want to delete "${name}" from the store inventory?`)) {
-        items.splice(index, 1);
-        localStorage.setItem('products', JSON.stringify(items));
-        window.products = items;
+        if (window.supabase && productToDelete && productToDelete.id) {
+          try {
+            const { error } = await window.supabase.from('products').delete().eq('id', productToDelete.id);
+            if (error) throw error;
+            showToast(`"${name}" deleted from cloud catalog.`, 'info');
+          } catch (dbError) {
+            console.error("Cloud delete failed:", dbError);
+            showToast("Cloud delete failed. Deleted locally.", "info");
+            items.splice(index, 1);
+            localStorage.setItem('products', JSON.stringify(items));
+            window.products = items;
+          }
+        } else {
+          items.splice(index, 1);
+          localStorage.setItem('products', JSON.stringify(items));
+          window.products = items;
+        }
+        
+        if (window.supabase) {
+          await loadProducts();
+        }
         renderInventory();
         updateCounts();
-        showToast(`"${name}" deleted from catalog.`, 'info');
       }
     }
 
@@ -850,7 +895,13 @@
       }
     }
 
-    checkLockState();
+    if (typeof loadProducts === 'function') {
+      loadProducts().then(() => {
+        checkLockState();
+      });
+    } else {
+      checkLockState();
+    }
   </script>
 </body>
 </html>

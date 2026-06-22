@@ -10,16 +10,38 @@ const defaultProducts = [
   { name: "Ikat Fusion", price: 2100, originalPrice: 3000, image: "saree_banarasi.png", type: "Organic", origin: "Odisha / Telangana", craft: "Tie-and-Dye Ikat Weave", desc: "Features geometrically precise warp-and-weft tie-dye threads, handwoven into sharp zigzags and classical motifs.", color: "Black", rating: 4.2 }
 ];
 
-let products = JSON.parse(localStorage.getItem('products'));
-if (products && products.length && (!products[0].hasOwnProperty('color') || !products[0].hasOwnProperty('rating'))) {
-  localStorage.removeItem('products');
-  products = null;
-}
-if (!products || !products.length) {
-  products = defaultProducts;
-  localStorage.setItem('products', JSON.stringify(products));
-}
+let products = JSON.parse(localStorage.getItem('products')) || defaultProducts;
 window.products = products;
+
+const supabaseUrl = 'https://utqweirxaimfolchyskv.supabase.co';
+const supabaseKey = 'sb_publishable_6XCmyw3Zyi_xuno3lC0_Dw_yvHZgwjM';
+const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
+
+async function loadProducts() {
+  if (supabase) {
+    try {
+      const { data, error } = await supabase.from('products').select('*').order('id', { ascending: true });
+      if (!error && data && data.length > 0) {
+        window.products = data;
+        localStorage.setItem('products', JSON.stringify(data));
+        return data;
+      } else if (error) {
+        console.warn("Supabase fetch warning:", error.message);
+      }
+    } catch (e) {
+      console.error("Failed to connect to Supabase:", e);
+    }
+  }
+  let localProducts = JSON.parse(localStorage.getItem('products'));
+  if (!localProducts || !localProducts.length) {
+    localProducts = defaultProducts;
+    localStorage.setItem('products', JSON.stringify(localProducts));
+  }
+  window.products = localProducts;
+  return localProducts;
+}
+window.loadProducts = loadProducts;
+window.supabase = supabase;
 
 // LocalStorage Helpers
 function getCart() {
@@ -570,7 +592,13 @@ window.renderCatalog = function(filteredList = products) {
 };
 
 // Initial execution
-if (document.getElementById("product-list")) {
+if (typeof loadProducts === 'function') {
+  loadProducts().then((loadedProducts) => {
+    if (document.getElementById("product-list")) {
+      renderCatalog(loadedProducts);
+    }
+  });
+} else if (document.getElementById("product-list")) {
   renderCatalog(products);
 }
 
