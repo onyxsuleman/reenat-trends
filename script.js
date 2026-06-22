@@ -15,12 +15,12 @@ window.products = products;
 
 const supabaseUrl = 'https://utqweirxaimfolchyskv.supabase.co';
 const supabaseKey = 'sb_publishable_6XCmyw3Zyi_xuno3lC0_Dw_yvHZgwjM';
-const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
+const supabaseClient = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
 
 async function loadProducts() {
-  if (supabase) {
+  if (supabaseClient) {
     try {
-      const { data, error } = await supabase.from('products').select('*').order('id', { ascending: true });
+      const { data, error } = await supabaseClient.from('products').select('*').order('id', { ascending: true });
       if (!error && data && data.length > 0) {
         window.products = data;
         localStorage.setItem('products', JSON.stringify(data));
@@ -41,7 +41,7 @@ async function loadProducts() {
   return localProducts;
 }
 window.loadProducts = loadProducts;
-window.supabase = supabase;
+window.supabaseClient = supabaseClient;
 
 // LocalStorage Helpers
 function getCart() {

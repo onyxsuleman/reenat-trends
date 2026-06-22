@@ -808,16 +808,16 @@
         brand
       };
 
-      if (window.supabase) {
+      if (window.supabaseClient) {
         try {
           if (index !== '') {
-            const { error } = await window.supabase.from('products').update(newSaree).eq('id', existingProduct.id);
+            const { error } = await window.supabaseClient.from('products').update(newSaree).eq('id', existingProduct.id);
             if (error) throw error;
             showToast(`"${name}" updated in database successfully!`, 'success');
           } else {
             const insertData = { ...newSaree };
             delete insertData.id; // Let database auto-assign ID if possible
-            const { error } = await window.supabase.from('products').insert(insertData);
+            const { error } = await window.supabaseClient.from('products').insert(insertData);
             if (error) throw error;
             showToast(`"${name}" listed in store catalog!`, 'success');
           }
@@ -844,7 +844,7 @@
         window.products = items;
       }
 
-      if (window.supabase) {
+      if (window.supabaseClient) {
         await loadProducts();
       }
       renderInventory();
@@ -860,9 +860,9 @@
       const name = productToDelete?.name || 'Item';
       
       if (confirm(`Are you sure you want to delete "${name}" from the store inventory?`)) {
-        if (window.supabase && productToDelete && productToDelete.id) {
+        if (window.supabaseClient && productToDelete && productToDelete.id) {
           try {
-            const { error } = await window.supabase.from('products').delete().eq('id', productToDelete.id);
+            const { error } = await window.supabaseClient.from('products').delete().eq('id', productToDelete.id);
             if (error) throw error;
             showToast(`"${name}" deleted from cloud catalog.`, 'info');
           } catch (dbError) {
@@ -878,7 +878,7 @@
           window.products = items;
         }
         
-        if (window.supabase) {
+        if (window.supabaseClient) {
           await loadProducts();
         }
         renderInventory();
