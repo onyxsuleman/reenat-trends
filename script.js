@@ -121,7 +121,7 @@ const defaultProducts = [
   }
 ];
 
-let products = JSON.parse(localStorage.getItem('products')) || defaultProducts;
+let products = JSON.parse(localStorage.getItem('products')) || null;
 window.products = products;
 
 const supabaseUrl = 'https://utqweirxeimfolchyskv.supabase.co';
@@ -155,6 +155,7 @@ async function loadProducts() {
         const combinedData = [...mappedData, ...existingLocal];
         
         window.products = combinedData;
+        products = combinedData;
         try {
           localStorage.setItem('products', JSON.stringify(combinedData));
         } catch (storageError) {
@@ -181,6 +182,7 @@ async function loadProducts() {
     }
   }
   window.products = localProducts;
+  products = localProducts;
   return localProducts;
 }
 window.loadProducts = loadProducts;
@@ -653,9 +655,29 @@ document.addEventListener('click', (e) => {
 });
 
 // Reusable Page Catalog Renderer
+window.renderSkeletons = function() {
+  const productList = document.getElementById("product-list");
+  if (!productList) return;
+  productList.innerHTML = Array(6).fill(0).map(() => `
+    <li class="col-span-1 flex flex-col rounded-3xl overflow-hidden shadow-sm bg-white/40 dark:bg-black/10 backdrop-blur-md animate-pulse">
+      <div class="aspect-[3/4] bg-slate-200/50 dark:bg-slate-800/50 m-2 rounded-2xl"></div>
+      <div class="p-4 space-y-2">
+        <div class="h-4 bg-slate-200/50 dark:bg-slate-800/50 rounded w-2/3"></div>
+        <div class="h-3 bg-slate-200/50 dark:bg-slate-800/50 rounded w-1/3"></div>
+        <div class="h-6 bg-slate-200/50 dark:bg-slate-800/50 rounded w-1/2 mt-2"></div>
+      </div>
+    </li>
+  `).join("");
+};
+
 window.renderCatalog = function(filteredList = products) {
   const productList = document.getElementById("product-list");
   if (!productList) return;
+  
+  if (!filteredList) {
+    window.renderSkeletons();
+    return;
+  }
   
   if (filteredList.length === 0) {
     productList.innerHTML = `
@@ -669,7 +691,7 @@ window.renderCatalog = function(filteredList = products) {
 
   productList.innerHTML = filteredList.map((product) => {
     // Find original index
-    const idx = products.findIndex(p => p.name === product.name);
+    const idx = (products || []).findIndex(p => p.name === product.name);
     const formattedPrice = Math.round(product.price || 0).toLocaleString('en-IN');
     const formattedOriginal = Math.round(product.originalPrice || 0).toLocaleString('en-IN');
     const discountPercent = Math.round((((product.originalPrice || 0) - (product.price || 0)) / (product.originalPrice || 1)) * 100);
@@ -678,7 +700,7 @@ window.renderCatalog = function(filteredList = products) {
       <li class="group product-card col-span-1 flex flex-col rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 backdrop-blur-md">
         <!-- Image -->
         <div class="relative overflow-hidden aspect-[3/4] bg-[#0c1e44]/5 dark:bg-black/20 p-2">
-          <a href="product.html?id=${idx}">
+          <a href="product.html?id=${product.id}">
             <img src="${product.image}" alt="${product.name}" data-product-index="${idx}" class="product-image-tap w-full h-full object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105" loading="lazy" />
           </a>
           <!-- Badge -->
@@ -709,7 +731,7 @@ window.renderCatalog = function(filteredList = products) {
           </div>
         </div>
         <!-- Details -->
-        <a href="product.html?id=${idx}" class="p-3 sm:p-4 flex flex-col justify-between flex-1 bg-white/40 dark:bg-black/10 relative hover:no-underline block">
+        <a href="product.html?id=${product.id}" class="p-3 sm:p-4 flex flex-col justify-between flex-1 bg-white/40 dark:bg-black/10 relative hover:no-underline block">
           <div>
             <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm group-hover:text-[#183fad] dark:group-hover:text-[#F1BF0A] transition-colors duration-200 truncate">
               ${product.name}
