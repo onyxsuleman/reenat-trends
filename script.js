@@ -1,4 +1,125 @@
-const defaultProducts = [];
+const defaultProducts = [
+  {
+    id: 1,
+    name: "Classic Kanjivaram Silk Saree",
+    type: "Silk",
+    color: "Gold",
+    price: 4500,
+    originalPrice: 9000,
+    image: "saree_kanjivaram.png",
+    image2: "saree_kanjivaram.png",
+    image3: "saree_kanjivaram.png",
+    origin: "India",
+    craft: "Mulberry Silk with Zari Border",
+    desc: "Exquisite pure mulberry silk sarees woven with genuine gold zari borders, carrying centuries of wedding-day heritage.",
+    gst: "5",
+    hsn: "500720",
+    weight: 450,
+    styleId: "KJV-SILK-001",
+    blouseLen: "0.8",
+    sareeLen: "5.5",
+    blouseType: "Contrast Blouse",
+    blouseColor: "Golden",
+    transparency: "No",
+    qty: "Single",
+    fabric: "Mulberry Silk",
+    border: "Zari",
+    occasion: "Party Traditional Wedding",
+    loom: "Handloom",
+    brand: "REENAT TRENDS",
+    rating: 4.9
+  },
+  {
+    id: 2,
+    name: "Royal Banarasi Silk Saree",
+    type: "Brocade",
+    color: "Magenta",
+    price: 3800,
+    originalPrice: 7600,
+    image: "saree_banarasi.png",
+    image2: "saree_banarasi.png",
+    image3: "saree_banarasi.png",
+    origin: "India",
+    craft: "Banarasi Brocade",
+    desc: "Dense and luxurious brocades from Varanasi, featuring elaborate floral vines and silver filigree for celebrations.",
+    gst: "5",
+    hsn: "500720",
+    weight: 500,
+    styleId: "BNS-BROC-002",
+    blouseLen: "0.8",
+    sareeLen: "5.5",
+    blouseType: "Running Blouse",
+    blouseColor: "Magenta",
+    transparency: "No",
+    qty: "Single",
+    fabric: "Banarasi Brocade",
+    border: "Zari",
+    occasion: "Party Traditional Wedding",
+    loom: "Handloom",
+    brand: "REENAT TRENDS",
+    rating: 4.8
+  },
+  {
+    id: 3,
+    name: "Elegant Chanderi Saree",
+    type: "Lightweight",
+    color: "Aqua Blue",
+    price: 2400,
+    originalPrice: 4800,
+    image: "saree_chanderi.png",
+    image2: "saree_chanderi.png",
+    image3: "saree_chanderi.png",
+    origin: "India",
+    craft: "Chanderi Weave",
+    desc: "Whisper-light silk cotton blends adorned with delicate handwoven buttis, perfect for warm summers and day events.",
+    gst: "5",
+    hsn: "520811",
+    weight: 350,
+    styleId: "CDR-COT-003",
+    blouseLen: "0.8",
+    sareeLen: "5.5",
+    blouseType: "Contrast Blouse",
+    blouseColor: "Aqua Blue",
+    transparency: "Semi-Transparent",
+    qty: "Single",
+    fabric: "Chanderi Cotton",
+    border: "Contrast",
+    occasion: "Casual",
+    loom: "Handloom",
+    brand: "REENAT TRENDS",
+    rating: 4.7
+  },
+  {
+    id: 4,
+    name: "Golden Tussar Silk Saree",
+    type: "Organic",
+    color: "Golden Yellow",
+    price: 3200,
+    originalPrice: 6400,
+    image: "saree_hero.png",
+    image2: "saree_hero.png",
+    image3: "saree_hero.png",
+    origin: "India",
+    craft: "Tussar Handloom",
+    desc: "Naturally textured wild silk sarees with a soft golden sheen, celebrating raw elegance and earth-toned charm.",
+    gst: "5",
+    hsn: "500720",
+    weight: 400,
+    styleId: "TSR-ORG-004",
+    blouseLen: "0.8",
+    sareeLen: "5.5",
+    blouseType: "Running Blouse",
+    blouseColor: "Golden Yellow",
+    transparency: "No",
+    qty: "Single",
+    fabric: "Silk",
+    border: "Zari",
+    occasion: "Festive",
+    loom: "Handloom",
+    brand: "REENAT TRENDS",
+    rating: 4.6
+  }
+];
 
 let products = JSON.parse(localStorage.getItem('products')) || defaultProducts;
 window.products = products;
@@ -8,6 +129,13 @@ const supabaseKey = 'sb_publishable_6XCmyw3Zyi_xuno3lC0_Dw_yvHZgwjM';
 const supabaseClient = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
 
 async function loadProducts() {
+  let localProducts = [];
+  try {
+    localProducts = JSON.parse(localStorage.getItem('products') || '[]');
+  } catch (e) {
+    console.warn("Failed to parse products from localStorage:", e);
+  }
+
   if (supabaseClient) {
     try {
       const { data, error } = await supabaseClient.from('products').select('*').order('id', { ascending: true });
@@ -21,20 +149,36 @@ async function loadProducts() {
           blouseType: item.blousetype,
           blouseColor: item.blousecolor
         }));
-        window.products = mappedData;
-        localStorage.setItem('products', JSON.stringify(mappedData));
-        return mappedData;
+        
+        // Merge fetched data with local-only items (isLocal: true)
+        const existingLocal = Array.isArray(localProducts) ? localProducts.filter(p => p.isLocal) : [];
+        const combinedData = [...mappedData, ...existingLocal];
+        
+        window.products = combinedData;
+        try {
+          localStorage.setItem('products', JSON.stringify(combinedData));
+        } catch (storageError) {
+          console.warn("Could not save products to localStorage due to quota limits:", storageError);
+        }
+        return combinedData;
       } else if (error) {
         console.warn("Supabase fetch warning:", error.message);
+        setTimeout(() => showToast("Database offline; loaded local backup catalog.", "info"), 500);
       }
     } catch (e) {
       console.error("Failed to connect to Supabase:", e);
+      setTimeout(() => showToast("Database offline; loaded local backup catalog.", "info"), 500);
     }
   }
-  let localProducts = JSON.parse(localStorage.getItem('products'));
+
+  // Fallback to local storage or defaults
   if (!localProducts || !localProducts.length) {
     localProducts = defaultProducts;
-    localStorage.setItem('products', JSON.stringify(localProducts));
+    try {
+      localStorage.setItem('products', JSON.stringify(localProducts));
+    } catch (storageError) {
+      console.warn("Could not save default products to localStorage:", storageError);
+    }
   }
   window.products = localProducts;
   return localProducts;

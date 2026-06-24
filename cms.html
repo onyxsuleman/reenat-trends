@@ -841,15 +841,30 @@
         } catch (dbError) {
           console.error("Database save failed, falling back to local storage:", dbError);
           showToast("Cloud save failed. Saved locally.", "info");
+          
+          newSaree.isLocal = true;
+          if (!newSaree.id) {
+            newSaree.id = 'local_' + Date.now();
+          }
+
           if (index !== '') {
             items[Number(index)] = newSaree;
           } else {
             items.push(newSaree);
           }
-          localStorage.setItem('products', JSON.stringify(items));
+          try {
+            localStorage.setItem('products', JSON.stringify(items));
+          } catch (storageError) {
+            console.warn("Could not save products locally:", storageError);
+          }
           window.products = items;
         }
       } else {
+        newSaree.isLocal = true;
+        if (!newSaree.id) {
+          newSaree.id = 'local_' + Date.now();
+        }
+
         if (index !== '') {
           items[Number(index)] = newSaree;
           showToast(`"${name}" updated successfully (local)!`, 'success');
@@ -857,7 +872,11 @@
           items.push(newSaree);
           showToast(`"${name}" listed in store catalog (local)!`, 'success');
         }
-        localStorage.setItem('products', JSON.stringify(items));
+        try {
+          localStorage.setItem('products', JSON.stringify(items));
+        } catch (storageError) {
+          console.warn("Could not save products locally:", storageError);
+        }
         window.products = items;
       }
 
@@ -877,25 +896,28 @@
       const name = productToDelete?.name || 'Item';
       
       if (confirm(`Are you sure you want to delete "${name}" from the store inventory?`)) {
-        if (window.supabaseClient && productToDelete && productToDelete.id) {
+        let success = true;
+        if (window.supabaseClient && productToDelete && productToDelete.id && !productToDelete.isLocal) {
           try {
             const { error } = await window.supabaseClient.from('products').delete().eq('id', productToDelete.id);
             if (error) throw error;
             showToast(`"${name}" deleted from cloud catalog.`, 'info');
           } catch (dbError) {
             console.error("Cloud delete failed:", dbError);
-            showToast("Cloud delete failed. Deleted locally.", "info");
-            items.splice(index, 1);
-            localStorage.setItem('products', JSON.stringify(items));
-            window.products = items;
+            showToast("Could not delete from database. Deleted locally.", "warning");
+            success = false;
           }
-        } else {
-          items.splice(index, 1);
-          localStorage.setItem('products', JSON.stringify(items));
-          window.products = items;
         }
         
-        if (window.supabaseClient) {
+        items.splice(index, 1);
+        try {
+          localStorage.setItem('products', JSON.stringify(items));
+        } catch (storageError) {
+          console.warn("Could not update local storage after deletion:", storageError);
+        }
+        window.products = items;
+        
+        if (window.supabaseClient && success) {
           await loadProducts();
         }
         renderInventory();
@@ -914,6 +936,9 @@
 
     if (typeof loadProducts === 'function') {
       loadProducts().then(() => {
+        checkLockState();
+      }).catch(err => {
+        console.error("loadProducts promise rejected:", err);
         checkLockState();
       });
     } else {

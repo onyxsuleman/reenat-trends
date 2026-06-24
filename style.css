@@ -76,7 +76,7 @@ html:not(.dark) .text-slate-400 {
 html:not(.dark) .bg-black\/60 span,
 html:not(.dark) .bg-black\/60 button,
 html:not(.dark) .bg-black\/60 .text-white,
-html:not(.dark) .bg-[#3a3fbe] {
+html:not(.dark) .bg-\[\#3a3fbe\] {
 	color: #ffffff !important;
 }
 body::before {
@@ -167,10 +167,10 @@ body::before {
 .dark .footer-panel {
 	background: rgba(8, 14, 30, 0.98);
 }
-.dark .text-[#090909] {
+.dark .text-\[\#090909\] {
 	color: #f1f5f9 !important;
 }
-.dark .bg-[#F1BF0A] {
+.dark .bg-\[\#F1BF0A\] {
 	background-color: #c89a3a !important;
 }
 .dark a {
