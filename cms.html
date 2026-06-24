@@ -445,7 +445,7 @@
               <button type="button" class="absolute top-2 right-2 size-5 bg-black/60 text-white rounded-full flex items-center justify-center text-[10px] font-bold select-none cursor-pointer z-25" onclick="event.stopPropagation(); document.getElementById('form-img-preview').src=''; document.getElementById('form-image-custom').value=''">×</button>
               <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-md rounded-lg py-1 px-1.5 text-center z-10 group-hover:bg-black/80 transition-colors">
                 <span class="text-[9px] font-bold text-white uppercase block">Front Image *</span>
-                <span class="text-[8px] font-bold text-amber-400 block">CLICK TO UPLOAD</span>
+                <span id="upload-status-front" class="text-[8px] font-bold text-amber-400 block">CLICK TO UPLOAD</span>
               </div>
             </div>
             
@@ -455,7 +455,7 @@
               <button type="button" class="absolute top-2 right-2 size-5 bg-black/60 text-white rounded-full flex items-center justify-center text-[10px] font-bold select-none cursor-pointer z-25" onclick="event.stopPropagation(); document.getElementById('form-img-preview-2').src=''">×</button>
               <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-md rounded-lg py-1 px-1.5 text-center z-10 group-hover:bg-black/80 transition-colors">
                 <span class="text-[9px] font-bold text-white uppercase block">Image 2</span>
-                <span class="text-[8px] font-bold text-amber-400 block">CLICK TO UPLOAD</span>
+                <span id="upload-status-img2" class="text-[8px] font-bold text-amber-400 block">CLICK TO UPLOAD</span>
               </div>
             </div>
             
@@ -465,7 +465,7 @@
               <button type="button" class="absolute top-2 right-2 size-5 bg-black/60 text-white rounded-full flex items-center justify-center text-[10px] font-bold select-none cursor-pointer z-25" onclick="event.stopPropagation(); document.getElementById('form-img-preview-3').src=''">×</button>
               <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-md rounded-lg py-1 px-1.5 text-center z-10 group-hover:bg-black/80 transition-colors">
                 <span class="text-[9px] font-bold text-white uppercase block">Image 3</span>
-                <span class="text-[8px] font-bold text-amber-400 block">CLICK TO UPLOAD</span>
+                <span id="upload-status-img3" class="text-[8px] font-bold text-amber-400 block">CLICK TO UPLOAD</span>
               </div>
             </div>
             
@@ -637,10 +637,76 @@
       document.getElementById('form-image-file-input').click();
     }
 
-    window.handleImageUpload = function(event) {
+    window.handleImageUpload = async function(event) {
       const file = event.target.files[0];
       if (!file) return;
 
+      // Show temporary loading state
+      const toastId = showToast('Uploading image to cloud storage...', 'info');
+
+      // Update slot label to uploading
+      const statusSpanId = `upload-status-${activeUploadSlot === 'front' ? 'front' : activeUploadSlot}`;
+      const statusSpan = document.getElementById(statusSpanId);
+      if (statusSpan) {
+        statusSpan.textContent = 'UPLOADING...';
+        statusSpan.className = 'text-[8px] font-bold text-blue-400 block';
+      }
+
+      try {
+        if (window.supabaseClient) {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `saree_${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+          const filePath = `${fileName}`;
+
+          const { data, error } = await window.supabaseClient.storage
+            .from('saree-images')
+            .upload(filePath, file, {
+              cacheControl: '3600',
+              upsert: false
+            });
+
+          if (error) throw error;
+
+          const { data: publicUrlData } = window.supabaseClient.storage
+            .from('saree-images')
+            .getPublicUrl(filePath);
+
+          const publicUrl = publicUrlData.publicUrl;
+
+          if (activeUploadSlot === 'front') {
+            document.getElementById('form-img-preview').src = publicUrl;
+            document.getElementById('form-header-thumb').src = publicUrl;
+            document.getElementById('form-image-custom').value = publicUrl;
+          } else if (activeUploadSlot === 'img2') {
+            document.getElementById('form-img-preview-2').src = publicUrl;
+          } else if (activeUploadSlot === 'img3') {
+            document.getElementById('form-img-preview-3').src = publicUrl;
+          }
+
+          if (statusSpan) {
+            statusSpan.textContent = 'UPLOAD SUCCESS';
+            statusSpan.className = 'text-[8px] font-bold text-emerald-400 block';
+            setTimeout(() => {
+              statusSpan.textContent = 'CLICK TO UPLOAD';
+              statusSpan.className = 'text-[8px] font-bold text-amber-400 block';
+            }, 3000);
+          }
+          showToast('Image uploaded and hosted successfully!', 'success');
+          return;
+        } else {
+          throw new Error('Supabase client not initialized');
+        }
+      } catch (uploadError) {
+        console.error("Supabase Storage upload failed, falling back to local Base64:", uploadError);
+        showToast("Cloud upload failed. Using local browser backup.", "warning");
+      }
+
+      if (statusSpan) {
+        statusSpan.textContent = 'LOCAL BACKUP';
+        statusSpan.className = 'text-[8px] font-bold text-yellow-400 block';
+      }
+
+      // Fallback: load as local Base64
       const reader = new FileReader();
       reader.onload = function(e) {
         const dataUrl = e.target.result;
@@ -654,7 +720,14 @@
         } else if (activeUploadSlot === 'img3') {
           document.getElementById('form-img-preview-3').src = dataUrl;
         }
-        showToast('Image uploaded successfully!', 'success');
+        showToast('Local image backup loaded.', 'success');
+
+        setTimeout(() => {
+          if (statusSpan) {
+            statusSpan.textContent = 'CLICK TO UPLOAD';
+            statusSpan.className = 'text-[8px] font-bold text-amber-400 block';
+          }
+        }, 3000);
       };
       reader.readAsDataURL(file);
     }
