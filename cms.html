@@ -934,15 +934,17 @@
       }
     }
 
+    // Unlock instantly if authenticated using cached inventory
+    checkLockState();
+
+    // Background sync updates
     if (typeof loadProducts === 'function') {
       loadProducts().then(() => {
-        checkLockState();
+        renderInventory();
+        updateCounts();
       }).catch(err => {
-        console.error("loadProducts promise rejected:", err);
-        checkLockState();
+        console.error("loadProducts background sync failed:", err);
       });
-    } else {
-      checkLockState();
     }
   </script>
 </body>

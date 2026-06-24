@@ -249,12 +249,16 @@
       showToast(`"${item.name}" removed from Wishlist.`, 'info');
     };
 
+    // Render wishlist immediately
+    renderWishlist();
+
+    // Refresh in background
     if (typeof loadProducts === 'function') {
       loadProducts().then(() => {
         renderWishlist();
+      }).catch(err => {
+        console.error("Background sync failed:", err);
       });
-    } else {
-      renderWishlist();
     }
   </script>
 </body>

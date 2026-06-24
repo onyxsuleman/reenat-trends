@@ -806,17 +806,23 @@
       }).join("");
     }
 
-    // Initial render call
+    // Render immediately from local/cached products
+    const cachedProducts = window.products || products || [];
+    if (cachedProducts.length > 0) {
+      product = cachedProducts[productId] || cachedProducts[0];
+      renderDetails();
+      renderRelatedProducts();
+    }
+
+    // Background refresh
     if (typeof loadProducts === 'function') {
       loadProducts().then((loadedProducts) => {
         product = loadedProducts[productId] || loadedProducts[0];
         renderDetails();
         renderRelatedProducts();
+      }).catch(err => {
+        console.error("Background sync failed:", err);
       });
-    } else {
-      product = products[productId] || products[0];
-      renderDetails();
-      renderRelatedProducts();
     }
   </script>
 </body>

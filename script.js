@@ -735,14 +735,18 @@ window.renderCatalog = function(filteredList = products) {
 };
 
 // Initial execution
+if (document.getElementById("product-list")) {
+  renderCatalog(window.products || products);
+}
+
 if (typeof loadProducts === 'function') {
   loadProducts().then((loadedProducts) => {
     if (document.getElementById("product-list")) {
       renderCatalog(loadedProducts);
     }
+  }).catch(err => {
+    console.error("Failed to load products background sync:", err);
   });
-} else if (document.getElementById("product-list")) {
-  renderCatalog(products);
 }
 
 // Direct operations for list actions
